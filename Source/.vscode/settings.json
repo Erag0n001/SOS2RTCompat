@@ -1,0 +1,9 @@
+{
+    "files.exclude": 
+    {
+        "Client/bin": true,
+        "Client/obj": true,
+        "Server/bin": true,
+        "Server/obj": true
+    }
+}
