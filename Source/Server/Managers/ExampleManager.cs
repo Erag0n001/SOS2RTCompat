@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using GameServer;
 using Shared;
+using Shared.SOS2RTCompat;
 
 namespace RTPatch
 {

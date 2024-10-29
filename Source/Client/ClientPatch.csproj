@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-    <RootNamespace>RTPatch</RootNamespace>
+    <RootNamespace>GameClient.SOS2RTCompat</RootNamespace>
     <Nullable>enable</Nullable>
     <LangVersion>9</LangVersion>
-    <TargetName>RTPatch</TargetName>
+    <TargetName>SOSRTCompat</TargetName>
+    <AssemblyName>SOSRTCompat</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -24,8 +25,10 @@
 
   <ItemGroup>
     <Reference Include="GameClient">
-      <HintPath>..\..\..\Rimworld-Together\Source\Client\bin\Debug\net472\GameClient.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\..\..\Rimworld-Together\Source\Client\bin\Debug\net472\GameClient.dll</HintPath>
+    </Reference>
+    <Reference Include="ShipsHaveInsides">
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\workshop\content\294100\1909914131\1.5\Assemblies\ShipsHaveInsides.dll</HintPath>
     </Reference>
   </ItemGroup>
 	

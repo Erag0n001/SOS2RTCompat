@@ -1,4 +1,4 @@
-namespace Shared 
+namespace Shared.SOS2RTCompat
 {
     // A class that can be sent over the network.
 
