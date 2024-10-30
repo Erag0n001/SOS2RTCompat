@@ -20,9 +20,15 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Lib.Harmony" Version="2.3.3" />
       <PackageReference Include="Mono.Nat" Version="3.0.4" />
       <PackageReference Include="System.Security.Permissions" Version="8.0.0" />
     </ItemGroup>
+
+    <PropertyGroup>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    </PropertyGroup>
+
 
     <ItemGroup>
       <Reference Include="GameServer">

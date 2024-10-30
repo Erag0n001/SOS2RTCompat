@@ -29,7 +29,7 @@ namespace GameClient.SOS2RTCompat
                         settlementData._settlementData.Tile = target.Tile;
                         settlementData._stepMode = SettlementStepMode.Add;
 
-                        Packet packet = Packet.CreateModdedPacketFromObject(nameof(GroundSettlementManager), CommonValues.AssName ,settlementData);
+                        Packet packet = Packet.CreatePacketFromObject(nameof(PlayerSettlementManager),settlementData);
                         Network.listener.EnqueuePacket(packet);
 
                         SaveManager.ForceSave();
@@ -55,7 +55,7 @@ namespace GameClient.SOS2RTCompat
                         settlementData._settlementData.Tile = tile;
                         settlementData._stepMode = SettlementStepMode.Remove;
 
-                        Packet packet = Packet.CreateModdedPacketFromObject(nameof(GroundSettlementManager), CommonValues.AssName ,settlementData);
+                        Packet packet = Packet.CreatePacketFromObject(nameof(PlayerSettlementManager), settlementData);
                         Network.listener.EnqueuePacket(packet);
 
                         SaveManager.ForceSave();
