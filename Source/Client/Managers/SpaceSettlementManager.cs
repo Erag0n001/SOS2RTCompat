@@ -41,29 +41,27 @@ namespace GameClient.SOS2RTCompat
 
         public static void SpawnSingleSettlement(SpaceSettlementData data)
         {
-            if (ClientValues.isReadyToPlay)
+            try
             {
-                try
-                {
-                    WorldObjectFakeOrbitingShip ship = SetGoodWillShip(data._settlementData.Goodwill);
-                    ship.Tile = data._settlementData.Tile;
-                    ship.name = $"{data._settlementData.Owner}'s ship";
-                    ship.SetFaction(PlanetManagerHelper.GetPlayerFactionFromGoodwill(data._settlementData.Goodwill));
-                    ship.phi = data._phi;
-                    ship.theta = data._theta;
-                    ship.radius = data._radius;
-                    ship.OrbitSet();
+                WorldObjectFakeOrbitingShip ship = SetGoodWillShip(data._settlementData.Goodwill);
+                ship.Tile = data._settlementData.Tile;
+                ship.name = $"{data._settlementData.Owner}'s ship";
+                ship.SetFaction(PlanetManagerHelper.GetPlayerFactionFromGoodwill(data._settlementData.Goodwill));
+                ship.phi = data._phi;
+                ship.theta = data._theta;
+                ship.radius = data._radius;
+                ship.OrbitSet();
 
-                    ship.altitude = 1000;
-
-                    spacePlayerSettlement.Add(ship);
-                    Find.WorldObjects.Add(ship);
-                }
-                catch (Exception e) 
-                { 
-                    Logger.Error($"[SOS2]Failed to spawn ship at {data._settlementData.Tile}. Reason: {e}");
-                    Logger.Error($"[SOS2]Debbuging info:\n{StringUtilities.ToString(data)}");
-                }
+                ship.altitude = 1000;
+                Logger.Warning(StringUtilities.ToString(data));
+                Logger.Warning(ship.ToString());
+                spacePlayerSettlement.Add(ship);
+                Find.WorldObjects.Add(ship);
+            }
+            catch (Exception e) 
+            { 
+                Logger.Error($"[SOS2]Failed to spawn ship at {data._settlementData.Tile}. Reason: {e}");
+                Logger.Error($"[SOS2]Debbuging info:\n{StringUtilities.ToString(data)}");
             }
         }
 
@@ -73,7 +71,6 @@ namespace GameClient.SOS2RTCompat
             {
                 oldship = WorldObjectManager.FindWorldObjectFromTile<WorldObjectFakeOrbitingShip>(tile);
             }
-            Logger.Warning(oldship.Faction.Name);
             spacePlayerSettlement.Remove(oldship);
             Find.WorldObjects.Remove(oldship);
 
@@ -93,22 +90,29 @@ namespace GameClient.SOS2RTCompat
         public static WorldObjectFakeOrbitingShip SetGoodWillShip(Goodwill goodwill)
         {
             WorldObjectFakeOrbitingShip ship;
+            Logger.Warning("test2");
             switch (goodwill)
             {
                 default:
-                    ship = (WorldObjectFakeOrbitingShip)WorldObjectMaker.MakeWorldObject(DefDatabase<WorldObjectDef>.GetNamed("RT_ShipNeutral"));
+                    Logger.Warning("N");
+                    ship = (WorldObjectFakeOrbitingShip)WorldObjectMaker.MakeWorldObject(ShipDefOf.RT_ShipNeutral);
                     break;
                 case Goodwill.Enemy:
-                    ship = (WorldObjectFakeOrbitingShip)WorldObjectMaker.MakeWorldObject(DefDatabase<WorldObjectDef>.GetNamed("RT_ShipEnemy"));
+                    Logger.Warning("E");
+                    ship = (WorldObjectFakeOrbitingShip)WorldObjectMaker.MakeWorldObject(ShipDefOf.RT_ShipEnemy);
                     break;
                 case Goodwill.Ally:
-                    ship = (WorldObjectFakeOrbitingShip)WorldObjectMaker.MakeWorldObject(DefDatabase<WorldObjectDef>.GetNamed("RT_Ship"));
+                    Logger.Warning("A");
+                    ship = (WorldObjectFakeOrbitingShip)WorldObjectMaker.MakeWorldObject(ShipDefOf.RT_Ship);
                     break;
                 case Goodwill.Faction:
-                    ship = (WorldObjectFakeOrbitingShip)WorldObjectMaker.MakeWorldObject(DefDatabase<WorldObjectDef>.GetNamed("RT_Ship"));
+                    Logger.Warning("F");
+                    ship = (WorldObjectFakeOrbitingShip)WorldObjectMaker.MakeWorldObject(ShipDefOf.RT_Ship);
                     break;
             }
+            Logger.Warning("test3");
             ship.SetFaction(PlanetManagerHelper.GetPlayerFactionFromGoodwill(goodwill));
+            Logger.Warning("test4");
             return ship;
         }
     }

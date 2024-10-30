@@ -107,5 +107,19 @@ namespace GameServer.SOS2RTCompat
 
             return null;
         }
+
+        public static SpaceSettlementFile[] GetAllSettlements()
+        {
+            List<SpaceSettlementFile> settlementList = new List<SpaceSettlementFile>();
+
+            string[] settlements = Directory.GetFiles(Master.settlementsPath);
+            foreach (string settlement in settlements)
+            {
+                if (!settlement.EndsWith(fileExtension)) continue;
+                settlementList.Add(Serializer.SerializeFromFile<SpaceSettlementFile>(settlement));
+            }
+
+            return settlementList.ToArray();
+        }
     }
 }

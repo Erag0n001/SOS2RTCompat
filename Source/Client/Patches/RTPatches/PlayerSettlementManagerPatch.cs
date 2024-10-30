@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 using Shared;
-
+using SaveOurShip2;
 namespace GameClient.SOS2RTCompat
 {
     public static class PlayerSettlementManagerPatch
@@ -11,7 +11,7 @@ namespace GameClient.SOS2RTCompat
             [HarmonyPrefix]
             public static bool DoPre(SettlementFile toAdd)
             {
-                WorldObjectFakeOrbitingShip obj = WorldObjectManager.FindWorldObjectFromTile<WorldObjectFakeOrbitingShip>(toAdd.Tile);
+                WorldObjectOrbitingShip obj = WorldObjectManager.FindWorldObjectFromTile<WorldObjectOrbitingShip>(toAdd.Tile);
                 if (obj != null) 
                 {
                     return false;
@@ -25,7 +25,7 @@ namespace GameClient.SOS2RTCompat
             [HarmonyPrefix]
             public static bool DoPre(int settlementTile)
             {
-                WorldObjectFakeOrbitingShip obj = WorldObjectManager.FindWorldObjectFromTile<WorldObjectFakeOrbitingShip>(settlementTile);
+                WorldObjectOrbitingShip obj = WorldObjectManager.FindWorldObjectFromTile<WorldObjectOrbitingShip>(settlementTile);
                 if (obj != null)
                 {
                     return false;

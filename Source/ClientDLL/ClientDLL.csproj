@@ -41,7 +41,6 @@
     </Reference>
     <Reference Include="SOSRTCompat">
       <HintPath>..\Client\bin\Debug\net472\SOSRTCompat.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -57,6 +56,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ShipDefOf.cs" />
+    <Compile Include="StaticConstructor.cs" />
     <Compile Include="WorldObjectFakeOrbitingShip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
