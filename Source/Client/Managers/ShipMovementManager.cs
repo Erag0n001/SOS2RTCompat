@@ -6,6 +6,7 @@ using CommonValues = Shared.SOS2RTCompat.CommonValues;
 using GameClient.TCP;
 namespace GameClient.SOS2RTCompat
 {
+    [RTManager]
     public static class ShipMovementManager
     {
         public static bool shipMoved = false;

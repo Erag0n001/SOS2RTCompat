@@ -2,6 +2,7 @@
 using GameClient.Managers;
 using GameClient.Values;
 using RimWorld;
+using Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ using static Shared.CommonEnumerators;
 
 namespace GameClient.SOS2RTCompat
 {
+    [RTManager]
     public class ShipGoodwillManager
     {
         public static void TryRequestGoodwill(Goodwill type)

@@ -7,6 +7,7 @@ using System.IO;
 using System;
 using Verse;
 using GameClient.Misc;
+using GameClient.Core;
 namespace GameClient.SOS2RTCompat
 {
     [StaticConstructorOnStartup]
@@ -17,21 +18,22 @@ namespace GameClient.SOS2RTCompat
         static Main()
         {
             Printer.Warning("[SOS2] patch loaded");
+            LoadAllManagers();
             LoadHarmonyPatches();
-
         }
 
-        public static void LoadClientAssembly() 
+        public static void LoadAllManagers() 
         {
-            AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
-
-            static Assembly ResolveAssembly(object sender, ResolveEventArgs args)
+            foreach (Type type in Assembly.GetExecutingAssembly().GetTypes())
             {
-                var assemblyPath = Path.Combine("..", "Assemblies", $"ClientDLL.dll");
-
-                return File.Exists(assemblyPath) ? Assembly.LoadFrom(assemblyPath) : null;
+                if (type.GetCustomAttributes(typeof(RTManager), false).Length != 0)
+                {
+                    try { Master.managerDictionary[type.Name] = type.GetMethod("ParsePacket"); }
+                    catch (Exception exception) { Printer.Error($"{type.Name} failed to load\n{exception}"); }
+                }
             }
         }
+
         public static void GetShipTile()
         {
             if (ShipInteriorMod2.FindPlayerShipMap() == null)

@@ -16,6 +16,7 @@ using CommonValues = Shared.SOS2RTCompat.CommonValues;
 
 namespace GameClient.SOS2RTCompat
 {
+    [RTManager]
     public static class SpaceSettlementManager
     {
         public static List<WorldObjectFakeOrbitingShip> spacePlayerSettlement = new List<WorldObjectFakeOrbitingShip>();

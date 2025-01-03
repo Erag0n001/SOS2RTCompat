@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace GameClient.SOS2RTCompat
 {
+    [RTManager]
     public static class GlobalDataManager
     {
         public static void ParsePacket(Packet packet) 

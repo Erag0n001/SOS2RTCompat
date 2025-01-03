@@ -9,6 +9,7 @@ using GameServer.Misc;
 
 namespace GameServer.SOSRTCompat
 {
+    [RTManager]
     public static class ShipMovementManager
     {
         public readonly static string fileExtension = ".mpspacesettlement";

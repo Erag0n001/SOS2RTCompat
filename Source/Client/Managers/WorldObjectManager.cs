@@ -1,4 +1,5 @@
 ﻿using RimWorld.Planet;
+using Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using Verse;
 
 namespace GameClient.SOS2RTCompat
 {
+    [RTManager]
     public static class WorldObjectManager
     {
         public static T RemoveWorldObjectFromTile<T>(int tile) 

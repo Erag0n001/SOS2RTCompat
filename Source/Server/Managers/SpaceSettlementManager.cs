@@ -14,6 +14,7 @@ using CommonValues = Shared.SOS2RTCompat.CommonValues;
 
 namespace GameServer.SOS2RTCompat
 {
+    [RTManager]
     public static class SpaceSettlementManager
     {
         public readonly static string fileExtension = ".mpship";

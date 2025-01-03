@@ -6,6 +6,7 @@ using CommonValues = Shared.SOS2RTCompat.CommonValues;
 
 namespace GameServer.SOS2RTCompat
 {
+    [RTManager]
     public static class GlobalDataManager
     {
         public static void SendServerSpaceSettlements(ServerClient client)
