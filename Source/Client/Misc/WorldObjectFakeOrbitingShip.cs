@@ -1,12 +1,13 @@
-﻿using RimWorld;
+﻿using GameClient.Dialogs;
+using GameClient.Managers;
+using GameClient.Values;
+using RimWorld;
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Verse;
 using static Shared.CommonEnumerators;
-using static System.Collections.Specialized.BitVector32;
 
 namespace GameClient.SOS2RTCompat
 {
@@ -91,8 +92,11 @@ namespace GameClient.SOS2RTCompat
                     {
                         SOS2SessionValues.chosenWorldObject = this;
 
-                        if (SessionValues.chosenSettlement.Faction == FactionValues.yourOnlineFaction) FactionManager.OnFactionOpenOnMember();
-                        else FactionManager.OnFactionOpenOnNonMember();
+                        if (SessionValues.actionValues.EnableFactions)
+                        {
+                            if (SessionValues.chosenSettlement.Faction == FactionValues.yourOnlineFaction) GuildManager.OnFactionOpenOnMember();
+                            else GuildManager.OnFactionOpenOnNonMember();
+                        }
                     }
                 };
 
@@ -111,7 +115,7 @@ namespace GameClient.SOS2RTCompat
 
                 if (this.Faction != FactionValues.yourOnlineFaction) gizmoList.Add(command_Goodwill);
                 if (ServerValues.hasFaction) gizmoList.Add(command_FactionMenu);
-                gizmoList.Add(command_Event);
+                if (SessionValues.actionValues.EnableEvents) EventManager.ShowEventMenu(); gizmoList.Add(command_Event);
                 return gizmoList;
             }
 
@@ -128,31 +132,12 @@ namespace GameClient.SOS2RTCompat
                     {
                         SOS2SessionValues.chosenWorldObject = this;
 
-                        if (ServerValues.hasFaction) FactionManager.OnFactionOpen();
-                        else FactionManager.OnNoFactionOpen();
+                        if (SessionValues.chosenSettlement.Faction == FactionValues.yourOnlineFaction) GuildManager.OnFactionOpenOnMember();
+                        else GuildManager.OnFactionOpenOnNonMember();
                     }
                 };
 
-                Command_Action command_GlobalMarketMenu = new Command_Action
-                {
-                    defaultLabel = "Global Market Menu",
-                    defaultDesc = "Access the global market",
-                    icon = ContentFinder<Texture2D>.Get("Commands/GlobalMarket"),
-                    action = delegate
-                    {
-                        SessionValues.chosenSettlement = Find.WorldObjects.Settlements.First(fetch => fetch.Faction == Faction.OfPlayer);
-
-                        if (SessionValues.actionValues.EnableMarket)
-                        {
-                            if (RimworldManager.CheckIfPlayerHasConsoleInMap(SessionValues.chosenSettlement.Map)) MarketManager.RequestReloadStock();
-                            else DialogManager.PushNewDialog(new RT_Dialog_Error("You need a comms console to use the market!"));
-                        }
-                        else DialogManager.PushNewDialog(new RT_Dialog_Error("The market has been disabled in this server!"));
-                    }
-                };
-
-                gizmoList.Add(command_GlobalMarketMenu);
-                gizmoList.Add(command_FactionMenu);
+                if (SessionValues.actionValues.EnableFactions) gizmoList.Add(command_FactionMenu);
                 return gizmoList;
             }
             return base.GetGizmos();

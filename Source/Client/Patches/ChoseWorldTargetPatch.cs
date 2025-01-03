@@ -1,4 +1,7 @@
 ﻿using GameClient;
+using GameClient.Managers;
+using GameClient.Misc;
+using GameClient.TCP;
 using HarmonyLib;
 using RimWorld.Planet;
 using SaveOurShip2;
@@ -21,12 +24,12 @@ namespace GameClient.SOS2RTCompat
             {
                 if (Network.state == ClientNetworkState.Connected)
                 {
-                    Logger.Warning($"[SOS2]Is observing {target.Tile}", LogImportanceMode.Verbose);
+                    Printer.Warning($"[SOS2]Is observing {target.Tile}", LogImportanceMode.Verbose);
                     if (target.WorldObject == null && !Find.World.Impassable(target.Tile))
                     {
                         PlayerSettlementData settlementData = new PlayerSettlementData();
-                        settlementData._settlementData = new SettlementFile();
-                        settlementData._settlementData.Tile = target.Tile;
+                        settlementData._settlementFile = new SettlementFile();
+                        settlementData._settlementFile.Tile = target.Tile;
                         settlementData._stepMode = SettlementStepMode.Add;
 
                         Packet packet = Packet.CreatePacketFromObject(nameof(PlayerSettlementManager),settlementData);
@@ -47,12 +50,12 @@ namespace GameClient.SOS2RTCompat
             {
                 if (Network.state == ClientNetworkState.Connected)
                 {
-                    Logger.Warning($"[SOS2]Has stopped observing {tile}", LogImportanceMode.Verbose);
+                    Printer.Warning($"[SOS2]Has stopped observing {tile}", LogImportanceMode.Verbose);
                     if (tile != -1)
                     {
                         PlayerSettlementData settlementData = new PlayerSettlementData();
-                        settlementData._settlementData = new SpaceSettlementFile();
-                        settlementData._settlementData.Tile = tile;
+                        settlementData._settlementFile = new SpaceSettlementFile();
+                        settlementData._settlementFile.Tile = tile;
                         settlementData._stepMode = SettlementStepMode.Remove;
 
                         Packet packet = Packet.CreatePacketFromObject(nameof(PlayerSettlementManager), settlementData);

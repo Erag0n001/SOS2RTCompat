@@ -27,8 +27,7 @@
 
     <ItemGroup>
       <Reference Include="GameServer">
-        <HintPath>..\..\..\..\Rimworld-Together\Source\Server\bin\Debug\net8.0\GameServer.dll</HintPath>
-        <Private>False</Private>
+        <HintPath>..\..\..\..\..\..\..\..\Github\Rimworld-Together\Source\Server\bin\Debug\net8.0\GameServer.dll</HintPath>
       </Reference>
     </ItemGroup>
 	

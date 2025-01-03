@@ -1,4 +1,7 @@
 ﻿using GameClient;
+using GameClient.Managers;
+using GameClient.Misc;
+using GameClient.TCP;
 using RimWorld;
 using RimWorld.Planet;
 using SaveOurShip2;
@@ -26,7 +29,7 @@ namespace GameClient.SOS2RTCompat
                     SpawnSingleSettlement(spaceSettlement); 
                     break;
                 case SettlementStepMode.Remove:
-                    WorldObjectManager.RemoveWorldObjectFromTile<WorldObjectFakeOrbitingShip>(spaceSettlement._settlementData.Tile);
+                    WorldObjectManager.RemoveWorldObjectFromTile<WorldObjectFakeOrbitingShip>(spaceSettlement._settlementFile.Tile);
                     break;
             }
         }
@@ -43,25 +46,25 @@ namespace GameClient.SOS2RTCompat
         {
             try
             {
-                WorldObjectFakeOrbitingShip ship = SetGoodWillShip(data._settlementData.Goodwill);
-                ship.Tile = data._settlementData.Tile;
-                ship.name = $"{data._settlementData.Owner}'s ship";
-                ship.SetFaction(PlanetManagerHelper.GetPlayerFactionFromGoodwill(data._settlementData.Goodwill));
+                WorldObjectFakeOrbitingShip ship = SetGoodWillShip(data._settlementFile.Goodwill);
+                ship.Tile = data._settlementFile.Tile;
+                ship.name = $"{data._settlementFile.UID}'s ship";
+                ship.SetFaction(PlanetManagerHelper.GetPlayerFactionFromGoodwill(data._settlementFile.Goodwill));
                 ship.phi = data._phi;
                 ship.theta = data._theta;
                 ship.radius = data._radius;
                 ship.OrbitSet();
 
                 ship.altitude = 1000;
-                Logger.Warning(StringUtilities.ToString(data));
-                Logger.Warning(ship.ToString());
+                Printer.Warning(StringUtilities.ToString(data));
+                Printer.Warning(ship.ToString());
                 spacePlayerSettlement.Add(ship);
                 Find.WorldObjects.Add(ship);
             }
             catch (Exception e) 
             { 
-                Logger.Error($"[SOS2]Failed to spawn ship at {data._settlementData.Tile}. Reason: {e}");
-                Logger.Error($"[SOS2]Debbuging info:\n{StringUtilities.ToString(data)}");
+                Printer.Error($"[SOS2]Failed to spawn ship at {data._settlementFile.Tile}. Reason: {e}");
+                Printer.Error($"[SOS2]Debbuging info:\n{StringUtilities.ToString(data)}");
             }
         }
 
@@ -90,29 +93,29 @@ namespace GameClient.SOS2RTCompat
         public static WorldObjectFakeOrbitingShip SetGoodWillShip(Goodwill goodwill)
         {
             WorldObjectFakeOrbitingShip ship;
-            Logger.Warning("test2");
+            Printer.Warning("test2");
             switch (goodwill)
             {
                 default:
-                    Logger.Warning("N");
+                    Printer.Warning("N");
                     ship = (WorldObjectFakeOrbitingShip)WorldObjectMaker.MakeWorldObject(ShipDefOf.RT_ShipNeutral);
                     break;
                 case Goodwill.Enemy:
-                    Logger.Warning("E");
+                    Printer.Warning("E");
                     ship = (WorldObjectFakeOrbitingShip)WorldObjectMaker.MakeWorldObject(ShipDefOf.RT_ShipEnemy);
                     break;
                 case Goodwill.Ally:
-                    Logger.Warning("A");
+                    Printer.Warning("A");
                     ship = (WorldObjectFakeOrbitingShip)WorldObjectMaker.MakeWorldObject(ShipDefOf.RT_Ship);
                     break;
                 case Goodwill.Faction:
-                    Logger.Warning("F");
+                    Printer.Warning("F");
                     ship = (WorldObjectFakeOrbitingShip)WorldObjectMaker.MakeWorldObject(ShipDefOf.RT_Ship);
                     break;
             }
-            Logger.Warning("test3");
+            Printer.Warning("test3");
             ship.SetFaction(PlanetManagerHelper.GetPlayerFactionFromGoodwill(goodwill));
-            Logger.Warning("test4");
+            Printer.Warning("test4");
             return ship;
         }
     }
@@ -124,7 +127,7 @@ namespace GameClient.SOS2RTCompat
             WorldObjectOrbitingShip orbitShip = comp.mapParent;
             SpaceSettlementData spaceSiteData = new SpaceSettlementData();
 
-            spaceSiteData._settlementData.Tile = map.Tile;
+            spaceSiteData._settlementFile.Tile = map.Tile;
             spaceSiteData._stepMode = SettlementStepMode.Add;
             spaceSiteData._theta = orbitShip.Theta;
             spaceSiteData._radius = orbitShip.Radius;

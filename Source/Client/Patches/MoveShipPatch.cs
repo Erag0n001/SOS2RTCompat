@@ -8,6 +8,10 @@ using RimWorld.Planet;
 using System.Linq;
 using Shared.SOS2RTCompat;
 using CommonValues = Shared.SOS2RTCompat.CommonValues;
+using GameClient.Managers;
+using GameClient.Values;
+using GameClient.TCP;
+using GameClient.Misc;
 namespace GameClient.SOS2RTCompat
 {
     [HarmonyPatch(typeof(ShipInteriorMod2), nameof(ShipInteriorMod2.MoveShip))]
@@ -19,14 +23,14 @@ namespace GameClient.SOS2RTCompat
             if (Network.state == ClientNetworkState.Connected)
             {
                 ClientValues.ManageDevOptions();
-                DifficultyManager.EnforceCustomDifficulty();
+                GameParameterManager.SetDifficulty(GameParameterManager.GetDifficulty());
                 Map map = core.Map;
                 if (!targetMap.IsSpace() && ShipInteriorMod2.FindPlayerShipMap() == null)
                 {
-                    Logger.Warning("[SOS2]Deleting empty space map", LogImportanceMode.Verbose);
+                    Printer.Warning("[SOS2]Deleting empty space map", LogImportanceMode.Verbose);
                     PlayerSettlementData settlementData = new PlayerSettlementData();
-                    settlementData._settlementData = new SpaceSettlementFile();
-                    settlementData._settlementData.Tile = Main.shipTile;
+                    settlementData._settlementFile = new SpaceSettlementFile();
+                    settlementData._settlementFile.Tile = Main.shipTile;
                     Main.shipTile = -1;
                     settlementData._stepMode = SettlementStepMode.Remove;
 

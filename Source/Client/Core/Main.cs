@@ -5,16 +5,18 @@ using SaveOurShip2;
 using Shared;
 using System.IO;
 using System;
+using Verse;
+using GameClient.Misc;
 namespace GameClient.SOS2RTCompat
 {
-    [RTStartup]
+    [StaticConstructorOnStartup]
     public static class Main
     {
         private static readonly string patchID = "SOS2RTCompat";
         public static int shipTile;
         static Main()
         {
-            Logger.Warning("[SOS2] patch loaded");
+            Printer.Warning("[SOS2] patch loaded");
             LoadHarmonyPatches();
 
         }

@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Shared.SOS2RTCompat;
 using CommonValues = Shared.SOS2RTCompat.CommonValues;
+using GameClient.TCP;
 namespace GameClient.SOS2RTCompat
 {
     public static class ShipMovementManager

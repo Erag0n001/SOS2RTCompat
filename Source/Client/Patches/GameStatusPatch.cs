@@ -1,4 +1,5 @@
 ﻿using GameClient;
+using GameClient.TCP;
 using HarmonyLib;
 using Verse;
 using static Shared.CommonEnumerators;

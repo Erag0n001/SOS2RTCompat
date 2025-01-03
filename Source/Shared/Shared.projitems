@@ -12,8 +12,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)*.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)misc\CommonValues.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PacketData\*.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)packetdata\MovementData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)packetdata\SpaceSettlementFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Misc\" />

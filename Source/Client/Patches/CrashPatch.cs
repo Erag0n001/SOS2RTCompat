@@ -1,4 +1,7 @@
 ﻿using GameClient;
+using GameClient.Managers;
+using GameClient.Misc;
+using GameClient.TCP;
 using HarmonyLib;
 using SaveOurShip2;
 using Shared;
@@ -18,11 +21,11 @@ namespace GameClient.SOS2RTCompat
             {
                 if (__instance.Map.GetComponent<ShipMapComp>().ShipMapState == ShipMapState.burnUpSet)
                 {
-                    Logger.Warning("[SOS2]Player lost ship.", LogImportanceMode.Verbose);
+                    Printer.Warning("[SOS2]Player lost ship.", LogImportanceMode.Verbose);
                     SpaceSettlementData data = new SpaceSettlementData();
                     data._stepMode = SettlementStepMode.Remove;
-                    data._settlementData = new SettlementFile();
-                    data._settlementData.Tile = Main.shipTile;
+                    data._settlementFile = new SettlementFile();
+                    data._settlementFile.Tile = Main.shipTile;
                     Main.shipTile = -1;
 
                     Packet packet = Packet.CreateModdedPacketFromObject(nameof(SpaceSettlementManager), CommonValues.AssName, data);

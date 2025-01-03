@@ -1,4 +1,8 @@
-﻿using Shared;
+﻿using GameServer.Core;
+using GameServer.Managers;
+using GameServer.Misc;
+using GameServer.TCP;
+using Shared;
 using Shared.SOS2RTCompat;
 using System;
 using System.Collections.Generic;
@@ -29,15 +33,15 @@ namespace GameServer.SOS2RTCompat
 
         public static void AddSpaceSettlement(ServerClient client, SpaceSettlementData settlementData) 
         {
-            if (PlayerSettlementManager.CheckIfTileIsInUse(settlementData._settlementData.Tile)) 
-                ResponseShortcutManager.SendIllegalPacket(client, $"[SOS2]Player {client.userFile.Username} attempted to add a ship at tile {settlementData._settlementData.Tile}, but that tile already has a settlement");
+            if (PlayerSettlementManager.CheckIfTileIsInUse(settlementData._settlementFile.Tile)) 
+                ResponseShortcutManager.SendIllegalPacket(client, $"[SOS2]Player {client.userFile.Label} attempted to add a ship at tile {settlementData._settlementFile.Tile}, but that tile already has a settlement");
             else
             {
-                settlementData._settlementData.Owner = client.userFile.Username;
+                settlementData._settlementFile.UID = client.userFile.Uid;
 
                 SpaceSettlementFile settlementFile = new SpaceSettlementFile();
-                settlementFile.Tile = settlementData._settlementData.Tile;
-                settlementFile.Owner = client.userFile.Username;
+                settlementFile.Tile = settlementData._settlementFile.Tile;
+                settlementFile.UID = client.userFile.Uid;
                 settlementFile.Phi = settlementData._phi;
                 settlementFile.Radius = settlementData._radius;
                 settlementFile.Theta = settlementData._theta;
@@ -49,25 +53,25 @@ namespace GameServer.SOS2RTCompat
                     if (cClient == client) continue;
                     else
                     {
-                        settlementData._settlementData.Goodwill = GoodwillManager.GetSettlementGoodwill(cClient, settlementFile);
+                        settlementData._settlementFile.Goodwill = GoodwillManager.GetSettlementGoodwill(cClient, settlementFile);
 
                         Packet rPacket = Packet.CreateModdedPacketFromObject(nameof(SpaceSettlementManager), CommonValues.AssName,settlementData);
                         cClient.listener.EnqueuePacket(rPacket);
                     }
                 }
-                Logger.Warning($"[SOS2][Added space settlement] > {settlementFile.Tile} > {client.userFile.Username}");
+                Printer.Warning($"[SOS2][Added space settlement] > {settlementFile.Tile} > {client.userFile.Uid}");
             }
         }
 
         public static void RemoveSpaceSettlement(ServerClient client, SpaceSettlementData settlementData) 
         {
-            if (!PlayerSettlementManager.CheckIfTileIsInUse(settlementData._settlementData.Tile)) ResponseShortcutManager.SendIllegalPacket(client, $"[SOS2]Ship at tile {settlementData._settlementData.Tile} was attempted to be removed, but the tile doesn't contain a ship");
+            if (!PlayerSettlementManager.CheckIfTileIsInUse(settlementData._settlementFile.Tile)) ResponseShortcutManager.SendIllegalPacket(client, $"[SOS2]Ship at tile {settlementData._settlementFile.Tile} was attempted to be removed, but the tile doesn't contain a ship");
 
-            SpaceSettlementFile settlementFile = GetSpaceSettlementFileFromTile(settlementData._settlementData.Tile);
+            SpaceSettlementFile settlementFile = GetSpaceSettlementFileFromTile(settlementData._settlementFile.Tile);
 
             if (client != null)
             {
-                if (settlementFile.Owner != client.userFile.Username) ResponseShortcutManager.SendIllegalPacket(client, $"[SOS2]Ship at tile {settlementData._settlementData.Tile} attempted to be removed by {client.userFile.Username}, but {settlementFile.Owner} owns the ship");
+                if (settlementFile.UID != client.userFile.Uid) ResponseShortcutManager.SendIllegalPacket(client, $"[SOS2]Ship at tile {settlementData._settlementFile.Tile} attempted to be removed by {client.userFile.Uid}, but {settlementFile.UID} owns the ship");
                 else
                 {
                     Delete();
@@ -83,7 +87,7 @@ namespace GameServer.SOS2RTCompat
             {
                 File.Delete(Path.Combine(Master.settlementsPath, settlementFile.Tile + fileExtension));
 
-                Logger.Warning($"[SOS2][Remove ship] > {settlementFile.Tile}");
+                Printer.Warning($"[SOS2][Remove ship] > {settlementFile.Tile}");
             }
             void SendRemovalSignal()
             {

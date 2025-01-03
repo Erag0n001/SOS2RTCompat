@@ -1,4 +1,7 @@
 ﻿using GameClient;
+using GameClient.Managers;
+using GameClient.Misc;
+using GameClient.TCP;
 using HarmonyLib;
 using SaveOurShip2;
 using Shared;
@@ -16,10 +19,10 @@ namespace GameClient.SOS2RTCompat
         {
             if (Network.state == ClientNetworkState.Connected)
             {
-                Logger.Warning("[SOS2]Player abandoned ship.", LogImportanceMode.Verbose);
+                Printer.Warning("[SOS2]Player abandoned ship.", LogImportanceMode.Verbose);
                 PlayerSettlementData settlementData = new PlayerSettlementData();
-                settlementData._settlementData = new SpaceSettlementFile();
-                settlementData._settlementData.Tile = Main.shipTile;
+                settlementData._settlementFile = new SpaceSettlementFile();
+                settlementData._settlementFile.Tile = Main.shipTile;
                 Main.shipTile = -1;
                 settlementData._stepMode = SettlementStepMode.Remove;
 

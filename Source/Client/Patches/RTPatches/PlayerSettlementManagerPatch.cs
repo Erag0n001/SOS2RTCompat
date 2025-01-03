@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Shared;
 using SaveOurShip2;
+using GameClient.Managers;
 namespace GameClient.SOS2RTCompat
 {
     public static class PlayerSettlementManagerPatch

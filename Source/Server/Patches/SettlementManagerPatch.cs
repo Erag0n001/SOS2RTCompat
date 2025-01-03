@@ -1,4 +1,6 @@
 ﻿using GameServer;
+using GameServer.Core;
+using GameServer.Managers;
 using HarmonyLib;
 using Shared;
 using Shared.SOS2RTCompat;

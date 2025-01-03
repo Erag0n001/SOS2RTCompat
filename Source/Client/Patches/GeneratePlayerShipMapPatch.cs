@@ -4,6 +4,9 @@ using Shared;
 using static Shared.CommonEnumerators;
 using GameClient;
 using SaveOurShip2;
+using GameClient.Values;
+using GameClient.Managers;
+using GameClient.TCP;
 namespace GameClient.SOS2RTCompat
 {
     [HarmonyPatch(typeof(ShipInteriorMod2), nameof(ShipInteriorMod2.GeneratePlayerShipMap))]
@@ -17,7 +20,7 @@ namespace GameClient.SOS2RTCompat
                 if (__result != null)
                 {
                     ClientValues.ManageDevOptions();
-                    DifficultyManager.EnforceCustomDifficulty();
+                    GameParameterManager.SetDifficulty(GameParameterManager.GetDifficulty());
                     Main.shipTile = __result.Tile;
                     SpaceSettlementManagerHelper.SendSettlementToServer(__result);
 

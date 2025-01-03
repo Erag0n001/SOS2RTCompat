@@ -1,4 +1,7 @@
-﻿using RimWorld;
+﻿using GameClient.Dialogs;
+using GameClient.Managers;
+using GameClient.Values;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;

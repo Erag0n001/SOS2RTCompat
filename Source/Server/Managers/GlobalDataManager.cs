@@ -1,10 +1,7 @@
-﻿using Shared;
+﻿using GameServer.Misc;
+using GameServer.TCP;
+using Shared;
 using Shared.SOS2RTCompat;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CommonValues = Shared.SOS2RTCompat.CommonValues;
 
 namespace GameServer.SOS2RTCompat
@@ -19,12 +16,12 @@ namespace GameServer.SOS2RTCompat
             {
                 SpaceSettlementData data = new SpaceSettlementData();
 
-                if (settlement.Owner == client.userFile.Username) continue;
+                if (settlement.UID == client.userFile.Uid) continue;
                 else
                 {
-                    data._settlementData = new SettlementFile()
+                    data._settlementFile = new SettlementFile()
                     {
-                        Owner = client.userFile.Username,
+                        Label = client.userFile.Label,
                         Tile = settlement.Tile,
                         Goodwill = settlement.Goodwill,
                     };
@@ -37,7 +34,7 @@ namespace GameServer.SOS2RTCompat
                 }
             }
             GlobalData global = new GlobalData() { _spaceSettlements = tempList.ToArray()};
-            Logger.Warning("Test");
+            Printer.Warning("Test");
             Packet packet = Packet.CreateModdedPacketFromObject(nameof(GlobalDataManager), CommonValues.AssName, global);
             client.listener.EnqueuePacket(packet);
         }
