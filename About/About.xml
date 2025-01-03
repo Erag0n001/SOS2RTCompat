@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+	<name>SOS2RTCompatibility</name>
+	<author>Eragon</author>
+	<packageId>Eragon.SOS2RTCompatibility</packageId>
+	<supportedVersions>
+		<li>1.5</li>
+	</supportedVersions>
+	<modDependenciesByVersion>
+		<v1.5>
+			<li>
+				<packageId>kentington.saveourship2</packageId>
+				<displayName>Save Our Ship 2</displayName>
+				<steamWorkshopUrl>steam://url/CommunityFilePage/1909914131</steamWorkshopUrl>
+			</li>
+			<li>
+				<packageId>nova.rimworldtogether</packageId>
+				<displayName>Rimworld Together</displayName>
+				<steamWorkshopUrl>steam://url/CommunityFilePage/3005289691</steamWorkshopUrl>
+			</li>
+		</v1.5>
+	</modDependenciesByVersion>
+	<description>
+	WIP
+	</description>
+</ModMetaData>

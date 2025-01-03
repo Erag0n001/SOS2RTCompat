@@ -13,6 +13,17 @@
     <DebugType>full</DebugType>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Assemblies\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>5</WarningLevel>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+  
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
@@ -20,17 +31,24 @@
 
   <ItemGroup>
     <PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4297" />
-    <PackageReference Include="Lib.Harmony" Version="2.3.3" />
+    <PackageReference Include="Lib.Harmony">
+    <Version>2.3.3</Version>
+    <ExcludeAssets>runtime</ExcludeAssets>
+  </PackageReference>
+
   </ItemGroup>
 	
+
   <Import Project="..\Shared\Shared.projitems" Label="Shared" />
 	
   <ItemGroup>
     <Reference Include="GameClient">
       <HintPath>..\..\..\..\..\..\..\..\Github\Rimworld-Together\Source\Client\bin\Debug\net472\GameClient.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ShipsHaveInsides">
       <HintPath>..\..\..\..\..\..\workshop\content\294100\1909914131\1.5\Assemblies\ShipsHaveInsides.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
 	
