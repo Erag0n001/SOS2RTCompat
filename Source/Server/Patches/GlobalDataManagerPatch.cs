@@ -11,7 +11,7 @@ namespace GameServer.SOS2RTCompat.Patches
 {
     public static class GlobalDataManagerPatch
     {
-        [HarmonyPatch(typeof(GameServer.GlobalDataManagerHelper), "GetServerSettlements")]
+        [HarmonyPatch(typeof(GameServer.Managers.GlobalDataManagerHelper), nameof(GameServer.Managers.GlobalDataManagerHelper.GetServerSettlements))]
         public static class GetAllSpaceSettlement
         {
             [HarmonyPostfix]

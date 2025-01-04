@@ -9,7 +9,7 @@ namespace GameServer.SOS2RTCompat
 {
     public static class PlayerSettlementManagerPatch
     {
-        [HarmonyPatch(typeof(PlayerSettlementManager), "CheckIfTileIsInUse")]
+        [HarmonyPatch(typeof(PlayerSettlementManager), nameof(PlayerSettlementManager.CheckIfTileIsInUse))]
         public static class CheckIfSpaceSettlementExist
         {
             [HarmonyPostfix]

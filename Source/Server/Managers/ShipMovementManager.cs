@@ -13,7 +13,7 @@ namespace GameServer.SOSRTCompat
     public static class ShipMovementManager
     {
         public readonly static string fileExtension = ".mpspacesettlement";
-        public static void HandlePacket(ServerClient client, Packet packet)
+        public static void ParsePacket(ServerClient client, Packet packet)
         {
             MovementData data = Serializer.ConvertBytesToObject<MovementData>(packet.contents);
             UpdateShip(client, data);
