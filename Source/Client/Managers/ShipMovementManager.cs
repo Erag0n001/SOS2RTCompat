@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Shared.SOS2RTCompat;
-using CommonValues = Shared.SOS2RTCompat.CommonValues;
 using GameClient.TCP;
 namespace GameClient.SOS2RTCompat
 {
@@ -19,6 +18,10 @@ namespace GameClient.SOS2RTCompat
         {
             Task.Run(PositionChecker);
         }
+        public static void ParsePacket(Packet packet) 
+        {
+
+        }
         public static void PositionChecker()
         {
             while (true)
@@ -26,7 +29,7 @@ namespace GameClient.SOS2RTCompat
                 Thread.Sleep(sleepTime);
                 if (shipMoved)
                 {
-                    Packet packet = Packet.CreateModdedPacketFromObject(nameof(ShipMovementManager), CommonValues.AssName, new MovementData() { _phi = phi, _theta = theta, _radius = radius, _tile = tile });
+                    Packet packet = Packet.CreatePacketFromObject(nameof(ShipMovementManager), new MovementData() { _phi = phi, _theta = theta, _radius = radius, _tile = tile });
                     Network.listener.EnqueuePacket(packet);
                     shipMoved = false;
                 }

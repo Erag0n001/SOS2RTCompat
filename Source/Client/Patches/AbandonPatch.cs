@@ -7,7 +7,6 @@ using SaveOurShip2;
 using Shared;
 using Shared.SOS2RTCompat;
 using static Shared.CommonEnumerators;
-using CommonValues = Shared.SOS2RTCompat.CommonValues;
 
 namespace GameClient.SOS2RTCompat
 {
@@ -26,7 +25,7 @@ namespace GameClient.SOS2RTCompat
                 Main.shipTile = -1;
                 settlementData._stepMode = SettlementStepMode.Remove;
 
-                Packet packet = Packet.CreateModdedPacketFromObject(nameof(SpaceSettlementManager), CommonValues.AssName, settlementData);
+                Packet packet = Packet.CreatePacketFromObject(nameof(SpaceSettlementManager), settlementData);
                 Network.listener.EnqueuePacket(packet);
 
                 SaveManager.ForceSave();

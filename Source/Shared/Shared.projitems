@@ -10,10 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)*.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)misc\CommonValues.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PacketData\*.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Misc\" />
   </ItemGroup>
 </Project>

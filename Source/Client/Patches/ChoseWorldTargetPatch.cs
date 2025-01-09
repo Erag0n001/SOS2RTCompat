@@ -9,7 +9,6 @@ using Shared;
 using Shared.SOS2RTCompat;
 using Verse;
 using static Shared.CommonEnumerators;
-using CommonValues = Shared.SOS2RTCompat.CommonValues;
 
 namespace GameClient.SOS2RTCompat
 {

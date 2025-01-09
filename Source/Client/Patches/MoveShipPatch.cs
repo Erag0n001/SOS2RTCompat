@@ -2,12 +2,8 @@
 using Verse;
 using Shared;
 using static Shared.CommonEnumerators;
-using GameClient;
 using SaveOurShip2;
-using RimWorld.Planet;
-using System.Linq;
 using Shared.SOS2RTCompat;
-using CommonValues = Shared.SOS2RTCompat.CommonValues;
 using GameClient.Managers;
 using GameClient.Values;
 using GameClient.TCP;
@@ -34,7 +30,7 @@ namespace GameClient.SOS2RTCompat
                     Main.shipTile = -1;
                     settlementData._stepMode = SettlementStepMode.Remove;
 
-                    Packet packet = Packet.CreateModdedPacketFromObject(nameof(SpaceSettlementManager), CommonValues.AssName,settlementData);
+                    Packet packet = Packet.CreatePacketFromObject(nameof(SpaceSettlementManager),settlementData);
                     Network.listener.EnqueuePacket(packet);
 
                     SaveManager.ForceSave();

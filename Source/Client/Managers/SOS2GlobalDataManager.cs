@@ -10,16 +10,13 @@ using System.Threading.Tasks;
 namespace GameClient.SOS2RTCompat
 {
     [RTManager]
-    public static class GlobalDataManager
+    public static class SOS2GlobalDataManager
     {
+        public static SpaceSettlementData[] tempSettlements;
         public static void ParsePacket(Packet packet) 
         {
             GlobalData settlementList = Serializer.ConvertBytesToObject<GlobalData>(packet.contents);
-            foreach (SpaceSettlementData settlement in settlementList._spaceSettlements)
-            {
-                Printer.Warning("Test");
-                SpaceSettlementManager.SpawnSingleSettlement(settlement);
-            }
+            tempSettlements = settlementList._spaceSettlements;
         }
     }
 }

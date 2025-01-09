@@ -10,7 +10,7 @@ using Verse;
 namespace GameClient.SOS2RTCompat
 {
     [RTManager]
-    public static class WorldObjectManager
+    public static class SOS2WorldObjectManager
     {
         public static T RemoveWorldObjectFromTile<T>(int tile) 
         {

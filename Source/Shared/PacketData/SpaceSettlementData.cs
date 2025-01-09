@@ -1,9 +1,9 @@
 namespace Shared.SOS2RTCompat
 {
-    public class SpaceSettlementData : PlayerSettlementData
+    public class SpaceSettlementData
     {
-        public float _radius;
-        public float _phi;
-        public float _theta;
+        public CommonEnumerators.SettlementStepMode _stepMode;
+
+        public SpaceSettlementFile _settlementFile = new SpaceSettlementFile();
     }
 }

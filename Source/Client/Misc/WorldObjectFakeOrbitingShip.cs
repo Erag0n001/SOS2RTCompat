@@ -33,13 +33,16 @@ namespace GameClient.SOS2RTCompat
         }
         public string name;
         public Vector3 drawPos;
-        Vector3 targetDrawPos = new Vector3(0, 0, 0);
-        Vector3 originDrawPos = new Vector3(0, 0, 0);
-        public float radius;
-        public float phi;
-        public float theta;
-        public float altitude;
-
+        public float radius = 0;
+        public float phi = 0;
+        public float theta = 0;
+        public float altitude = 1000;
+        public override void PostMake()
+        {
+            base.PostMake();
+            OrbitSet();
+            Draw();
+        }
         public void OrbitSet()
         {
             Vector3 v = Vector3.SlerpUnclamped(new Vector3(0, 0, 1) * radius, new Vector3(0, 0, 1) * radius * -1, theta * -1);
@@ -62,17 +65,17 @@ namespace GameClient.SOS2RTCompat
                         SOS2SessionValues.chosenWorldObject = this;
 
                         Action r1 = delegate {
-                            GoodwillManager.TryRequestGoodwill(Goodwill.Enemy,
+                            SpaceGoodwillManager.TryRequestGoodwill(Goodwill.Enemy,
                             GoodwillTarget.Settlement);
                         };
 
                         Action r2 = delegate {
-                            GoodwillManager.TryRequestGoodwill(Goodwill.Neutral,
+                            SpaceGoodwillManager.TryRequestGoodwill(Goodwill.Neutral,
                             GoodwillTarget.Settlement);
                         };
 
                         Action r3 = delegate {
-                            GoodwillManager.TryRequestGoodwill(Goodwill.Ally,
+                            SpaceGoodwillManager.TryRequestGoodwill(Goodwill.Ally,
                             GoodwillTarget.Settlement);
                         };
 
@@ -115,7 +118,7 @@ namespace GameClient.SOS2RTCompat
 
                 if (this.Faction != FactionValues.yourOnlineFaction) gizmoList.Add(command_Goodwill);
                 if (ServerValues.hasFaction) gizmoList.Add(command_FactionMenu);
-                if (SessionValues.actionValues.EnableEvents) EventManager.ShowEventMenu(); gizmoList.Add(command_Event);
+                if (SessionValues.actionValues.EnableEvents) gizmoList.Add(command_Event);
                 return gizmoList;
             }
 
