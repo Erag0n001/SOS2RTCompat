@@ -4,6 +4,6 @@ namespace Shared.SOS2RTCompat
     {
         public CommonEnumerators.SettlementStepMode _stepMode;
 
-        public SpaceSettlementFile _settlementFile = new SpaceSettlementFile();
+        public SpaceSettlementFile _settlementFile = new SpaceSettlementFile(-1);
     }
 }

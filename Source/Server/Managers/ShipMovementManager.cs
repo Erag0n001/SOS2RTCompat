@@ -28,23 +28,28 @@ namespace GameServer.SOSRTCompat
                     file.Theta = data._theta;
                     file.Radius = data._radius;
                     Serializer.SerializeToFile(Path.Combine(Master.settlementsPath, client.userFile.Uid + fileExtension), file);
-                    Packet packet = Packet.CreatePacketFromObject(nameof(ShipMovementManager), new MovementData() { _phi = file.Phi, _theta = file.Theta, _radius = file.Radius, _tile = file.Tile });
+                    MovementData dataForClients = new MovementData(file.ID);
+                    dataForClients._phi = file.Phi;
+                    dataForClients._theta = file.Theta;
+                    dataForClients._radius = file.Radius;
+                    dataForClients._tile = file.Tile;
+                    Packet packet = Packet.CreatePacketFromObject(nameof(ShipMovementManager), dataForClients);
                     foreach (ServerClient gameClient in Network.connectedClients)
                     {
                         if (gameClient != client) gameClient.listener.EnqueuePacket(packet);
                     }
-                        Printer.Warning($"[SOS2]{file.UID}'s ship moved on tile {file.Tile} with coordinate:\nPhi:{file.Phi}, Theta:{file.Theta}, Radius:{file.Radius}",
-                            CommonEnumerators.LogImportanceMode.Extreme);
+                    Printer.Warning($"[SOS2]{file.UID}'s ship moved with id {file.ID} with coordinate:\nPhi:{file.Phi}, Theta:{file.Theta}, Radius:{file.Radius}",
+                        CommonEnumerators.LogImportanceMode.Extreme);
                 }
                 else
                 {
-                    Printer.Error($"[SOS2]{client.userFile.Uid} tried to move {file.UID}'s ship at tile {file.Tile}");
-                    Printer.Error($"[SOS2]Debugging information:\n{StringUtilities.ToString(data)}",CommonEnumerators.LogImportanceMode.Verbose);
+                    Printer.Error($"[SOS2]{client.userFile.Uid} tried to move {file.UID}'s ship with id {file.ID}");
+                    Printer.Error($"[SOS2]Debugging information:\n{StringUtilities.ToString(data)}", CommonEnumerators.LogImportanceMode.Verbose);
                 }
             }
             else
             {
-                Printer.Error($"[SOS2]Tried moving {client.userFile.Uid}'s ship on tile {data._tile}, but it did not exist.");
+                Printer.Error($"[SOS2]Tried moving {client.userFile.Uid}'s ship with id {data.shipID}, but it did not exist.");
                 Printer.Error($"[SOS2]Debugging information:\n{StringUtilities.ToString(data)}", CommonEnumerators.LogImportanceMode.Verbose);
             }
         }

@@ -23,7 +23,7 @@ namespace GameClient.SOS2RTCompat
                     Printer.Warning("[SOS2]Player lost ship.", LogImportanceMode.Verbose);
                     SpaceSettlementData data = new SpaceSettlementData();
                     data._stepMode = SettlementStepMode.Remove;
-                    data._settlementFile = new SpaceSettlementFile();
+                    data._settlementFile = new SpaceSettlementFile(-1);
                     data._settlementFile.Tile = Main.shipTile;
                     Main.shipTile = -1;
 

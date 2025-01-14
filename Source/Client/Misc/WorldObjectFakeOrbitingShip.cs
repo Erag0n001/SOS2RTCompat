@@ -37,6 +37,7 @@ namespace GameClient.SOS2RTCompat
         public float phi = 0;
         public float theta = 0;
         public float altitude = 1000;
+        public int serverId = -1;
         public override void PostMake()
         {
             base.PostMake();

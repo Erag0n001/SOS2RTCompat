@@ -10,6 +10,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)*.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PacketData\*.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PacketData\GlobalData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PacketData\MovementData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)packetdata\SpaceFactionGoodwillData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PacketData\SpaceSettlementData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PacketData\SpaceSettlementFile.cs" />
   </ItemGroup>
 </Project>

@@ -14,7 +14,7 @@ namespace GameServer.SOS2RTCompat
             [HarmonyPostfix]
             public static void DoPost(ServerClient client, string uid)
             {
-                SpaceSettlementManager.RemoveSpaceSettlement(client, SpaceSettlementManager.GetSettlementFromUID(uid).Tile);
+                SpaceSettlementManager.RemoveSpaceSettlement(client, SpaceSettlementManager.GetSettlementFromUID(uid));
             }
         }
     }

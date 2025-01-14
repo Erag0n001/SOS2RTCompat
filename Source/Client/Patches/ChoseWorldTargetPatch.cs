@@ -53,7 +53,7 @@ namespace GameClient.SOS2RTCompat
                     if (tile != -1)
                     {
                         PlayerSettlementData settlementData = new PlayerSettlementData();
-                        settlementData._settlementFile = new SpaceSettlementFile();
+                        settlementData._settlementFile = new SpaceSettlementFile(-1);
                         settlementData._settlementFile.Tile = tile;
                         settlementData._stepMode = SettlementStepMode.Remove;
 

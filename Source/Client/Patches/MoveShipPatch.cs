@@ -25,7 +25,7 @@ namespace GameClient.SOS2RTCompat
                 {
                     Printer.Warning("[SOS2]Deleting empty space map", LogImportanceMode.Verbose);
                     PlayerSettlementData settlementData = new PlayerSettlementData();
-                    settlementData._settlementFile = new SpaceSettlementFile();
+                    settlementData._settlementFile = new SpaceSettlementFile(-1);
                     settlementData._settlementFile.Tile = Main.shipTile;
                     Main.shipTile = -1;
                     settlementData._stepMode = SettlementStepMode.Remove;

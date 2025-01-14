@@ -11,13 +11,13 @@ namespace GameServer.SOS2RTCompat
     {
         public static void ParsePacket(ServerClient client, Packet packet)
         {
-            FactionGoodwillData data = Serializer.ConvertBytesToObject<FactionGoodwillData>(packet.contents);
+            SpaceFactionGoodwillData data = Serializer.ConvertBytesToObject<SpaceFactionGoodwillData>(packet.contents);
             ChangeUserGoodwills(client, data);
         }
 
-        public static void ChangeUserGoodwills(ServerClient client, FactionGoodwillData data)
+        public static void ChangeUserGoodwills(ServerClient client, SpaceFactionGoodwillData data)
         {
-            SpaceSettlementFile settlementFile = SpaceSettlementManager.GetSpaceSettlementFileFromTile(data._tile);
+            SpaceSettlementFile settlementFile = SpaceSettlementManager.GetSettlementFromID(client, data._id);
 
             data._uid = settlementFile.UID;
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine.Tilemaps;
 using Verse;
 
 namespace GameClient.SOS2RTCompat
@@ -34,6 +35,18 @@ namespace GameClient.SOS2RTCompat
                     return match;
             }
             return default;
+        }
+
+        public static WorldObjectFakeOrbitingShip FindShipFromID(int id) 
+        {
+            WorldObjectFakeOrbitingShip[] toGet = (WorldObjectFakeOrbitingShip[])
+                Find.WorldObjects.AllWorldObjects.Where(x => x is WorldObjectFakeOrbitingShip).ToArray();
+            foreach(WorldObjectFakeOrbitingShip ship in toGet) 
+            {
+                if(id == ship.serverId)
+                    return ship;
+            }
+            return null;
         }
     }
 }

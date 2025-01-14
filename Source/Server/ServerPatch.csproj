@@ -35,6 +35,10 @@
         <Private>False</Private>
       </Reference>
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="GameServer\" />
+    </ItemGroup>
 	
     <Import Project="..\Shared\Shared.projitems" Label="Shared" />
 </Project>

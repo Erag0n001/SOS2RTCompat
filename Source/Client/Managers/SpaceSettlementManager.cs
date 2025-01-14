@@ -46,7 +46,7 @@ namespace GameClient.SOS2RTCompat
         {
             try
             {
-                WorldObjectFakeOrbitingShip ship = SetGoodWillShip(data._settlementFile.Goodwill);
+                WorldObjectFakeOrbitingShip ship = SetGoodWillShip(data._settlementFile.Goodwill, data._settlementFile.ID);
                 ship.Tile = data._settlementFile.Tile;
                 ship.name = $"{data._settlementFile.Label}'s ship";
                 ship.SetFaction(PlanetManagerHelper.GetPlayerFactionFromGoodwill(data._settlementFile.Goodwill));
@@ -67,16 +67,16 @@ namespace GameClient.SOS2RTCompat
             }
         }
 
-        public static void ChangeGoodwill(FactionGoodwillData data, WorldObjectFakeOrbitingShip oldship = null)
+        public static void ChangeGoodwill(SpaceFactionGoodwillData data, WorldObjectFakeOrbitingShip oldship = null)
         {
             if (oldship == null)
             {
-                oldship = SOS2WorldObjectManager.FindWorldObjectFromTile<WorldObjectFakeOrbitingShip>(data._tile);
+                oldship = SOS2WorldObjectManager.FindShipFromID(data._id);
             }
             spacePlayerSettlement.Remove(oldship);
             Find.WorldObjects.Remove(oldship);
 
-            WorldObjectFakeOrbitingShip ship = SetGoodWillShip(data._goodwill);
+            WorldObjectFakeOrbitingShip ship = SetGoodWillShip(data._goodwill, data._id);
             ship.Tile = oldship.Tile;
             ship.name = $"{oldship.name}";
             ship.phi = oldship.phi;
@@ -89,12 +89,9 @@ namespace GameClient.SOS2RTCompat
             Find.WorldObjects.Add(ship);
         }
 
-        public static WorldObjectFakeOrbitingShip SetGoodWillShip(Goodwill goodwill)
+        public static WorldObjectFakeOrbitingShip SetGoodWillShip(Goodwill goodwill, int id)
         {
             WorldObjectFakeOrbitingShip ship;
-            Printer.Warning(ShipDefOf.RT_ShipEnemy);
-            Printer.Warning(Find.UniqueIDsManager.GetNextWorldObjectID());
-            Printer.Warning(Find.TickManager.TicksGame);
             switch (goodwill)
             {
                 default:
@@ -110,6 +107,7 @@ namespace GameClient.SOS2RTCompat
                     ship = (WorldObjectFakeOrbitingShip)WorldObjectMaker.MakeWorldObject(ShipDefOf.RT_Ship);
                     break;
             }
+            ship.serverId = id;
             ship.SetFaction(PlanetManagerHelper.GetPlayerFactionFromGoodwill(goodwill));
             return ship;
         }

@@ -18,7 +18,7 @@ namespace GameClient.SOS2RTCompat
     {
         public static void ParsePacket(Packet packet)
         {
-            FactionGoodwillData factionGoodwillData = Serializer.ConvertBytesToObject<FactionGoodwillData>(packet.contents);
+            SpaceFactionGoodwillData factionGoodwillData = Serializer.ConvertBytesToObject<SpaceFactionGoodwillData>(packet.contents);
             SpaceSettlementManager.ChangeGoodwill(factionGoodwillData);
             DialogManager.PopWaitDialog();
         }
@@ -61,10 +61,10 @@ namespace GameClient.SOS2RTCompat
 
         public static void RequestChangeStructureGoodwill(int structureTile, Goodwill goodwill)
         {
-            FactionGoodwillData factionGoodwillData = new FactionGoodwillData();
+            SpaceFactionGoodwillData factionGoodwillData = new SpaceFactionGoodwillData(
+                (SOS2SessionValues.chosenWorldObject as WorldObjectFakeOrbitingShip).serverId);
             factionGoodwillData._tile = structureTile;
             factionGoodwillData._goodwill = goodwill;
-
             Packet packet = Packet.CreatePacketFromObject(nameof(SpaceGoodwillManager), factionGoodwillData);
             Network.listener.EnqueuePacket(packet);
 

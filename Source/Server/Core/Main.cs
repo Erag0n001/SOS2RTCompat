@@ -1,5 +1,4 @@
-﻿using GameServer.Core;
-using GameServer.Misc;
+﻿using GameServer.Misc;
 using HarmonyLib;
 using Shared;
 
@@ -10,9 +9,10 @@ namespace GameServer.SOS2RTCompat
     {
         static Main() 
         {
-            Printer.Warning("[SOS2] Save our ship 2 patch loaded!");
             Harmony harmony = new Harmony("SOSRTCompatServer");
             harmony.PatchAll();
+            IDManager.SetCurrentIDOnLoad();
+            Printer.Warning("[SOS2] Save our ship 2 patch loaded, welcome home captains.");
         }
     }
 }
