@@ -3,6 +3,7 @@ using GameServer.Managers;
 using GameServer.TCP;
 using HarmonyLib;
 using Shared;
+using Shared.SOS2RTCompat;
 
 namespace GameServer.SOS2RTCompat
 {
@@ -14,7 +15,10 @@ namespace GameServer.SOS2RTCompat
             [HarmonyPostfix]
             public static void DoPost(ServerClient client, string uid)
             {
-                SpaceSettlementManager.RemoveSpaceSettlement(client, SpaceSettlementManager.GetSettlementFromUID(uid));
+                SpaceSettlementFile settlement = SpaceSettlementManager.GetSettlementFromUID(uid);
+                if (settlement == null)
+                    return;
+                SpaceSettlementManager.RemoveSpaceSettlement(client, settlement);
             }
         }
     }

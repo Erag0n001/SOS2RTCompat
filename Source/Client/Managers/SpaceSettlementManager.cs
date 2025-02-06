@@ -29,7 +29,7 @@ namespace GameClient.SOS2RTCompat
                     SpawnSingleSettlement(spaceSettlement); 
                     break;
                 case SettlementStepMode.Remove:
-                    SOS2WorldObjectManager.RemoveWorldObjectFromTile<WorldObjectFakeOrbitingShip>(spaceSettlement._settlementFile.Tile);
+                    RemoveSingleSettlement(spaceSettlement);
                     break;
             }
         }
@@ -42,6 +42,14 @@ namespace GameClient.SOS2RTCompat
             foreach (WorldObject ship in ships) Find.WorldObjects.Remove(ship);
         }
 
+        public static void RemoveSingleSettlement(SpaceSettlementData spaceSettlement) 
+        {
+            WorldObjectFakeOrbitingShip? ship = SOS2WorldObjectManager.FindShipFromID(spaceSettlement._settlementFile.ID);
+            if (ship != null)
+                Find.WorldObjects.Remove(ship);
+            else
+                Printer.Warning($"Could not remove ship with ID {spaceSettlement._settlementFile.ID}, are you sure it exists?");
+        }
         public static void SpawnSingleSettlement(SpaceSettlementData data)
         {
             try

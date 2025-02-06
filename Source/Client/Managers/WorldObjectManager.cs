@@ -13,19 +13,6 @@ namespace GameClient.SOS2RTCompat
     [RTManager]
     public static class SOS2WorldObjectManager
     {
-        public static T RemoveWorldObjectFromTile<T>(int tile) 
-        {
-            List<WorldObject> toGet = Find.WorldObjects.AllWorldObjects.Where(x => x.Tile == tile).ToList();
-            foreach (WorldObject obj in toGet)
-            {
-                if (toGet != null && toGet is T match)
-                {
-                    Find.WorldObjects.Remove(obj);
-                }
-            }
-            return default;
-        }
-
         public static T? FindWorldObjectFromTile<T>(int tile)
         {
             List<WorldObject> toGet = Find.WorldObjects.AllWorldObjects.Where(x => x.Tile == tile).ToList();
@@ -39,8 +26,9 @@ namespace GameClient.SOS2RTCompat
 
         public static WorldObjectFakeOrbitingShip FindShipFromID(int id) 
         {
-            WorldObjectFakeOrbitingShip[] toGet = (WorldObjectFakeOrbitingShip[])
-                Find.WorldObjects.AllWorldObjects.Where(x => x is WorldObjectFakeOrbitingShip).ToArray();
+            WorldObjectFakeOrbitingShip[] toGet =
+                Find.WorldObjects.AllWorldObjects.Where(x => x is WorldObjectFakeOrbitingShip).
+                Cast<WorldObjectFakeOrbitingShip>().ToArray();
             foreach(WorldObjectFakeOrbitingShip ship in toGet) 
             {
                 if(id == ship.serverId)
