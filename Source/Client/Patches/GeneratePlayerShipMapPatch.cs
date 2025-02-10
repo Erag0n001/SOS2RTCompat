@@ -20,7 +20,11 @@ namespace GameClient.SOS2RTCompat
                 if (__result != null)
                 {
                     ClientValues.ManageDevOptions();
-                    GameParameterManager.SetDifficulty(GameParameterManager.GetDifficulty());
+
+                    GameParameterManager.SetScenario(SessionValues.scenarioFile);
+                    GameParameterManager.SetStoryteller(SessionValues.storytellerFile);
+                    GameParameterManager.SetDifficulty(SessionValues.difficultyFile);
+
                     Main.shipTile = __result.Tile;
                     SpaceSettlementManagerHelper.SendSettlementToServer(__result);
 

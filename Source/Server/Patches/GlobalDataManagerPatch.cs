@@ -15,7 +15,7 @@ namespace GameServer.SOS2RTCompat.Patches
         public static class GetAllSpaceSettlement
         {
             [HarmonyPostfix]
-            public static void DoPost(ServerClient client, ServerGlobalData globalData)
+            public static void DoPost(ServerClient client)
             {
                 SOS2GlobalDataManager.SendServerSpaceSettlements(client);
             }

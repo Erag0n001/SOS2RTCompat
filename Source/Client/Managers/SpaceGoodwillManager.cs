@@ -33,7 +33,7 @@ namespace GameClient.SOS2RTCompat
             {
                 if (factionToUse == FactionValues.enemyPlayer)
                 {
-                    RT_Dialog_Error d1 = new RT_Dialog_Error("Chosen ship is already marked as enemy!");
+                    RT_Dialog_Message d1 = new RT_Dialog_Message("ERROR", new string[] { "Chosen ship is already marked as enemy!" });
                     DialogManager.PushNewDialog(d1);
                 }
                 else RequestChangeStructureGoodwill(tileToUse, Goodwill.Enemy);
@@ -42,7 +42,7 @@ namespace GameClient.SOS2RTCompat
             {
                 if (factionToUse == FactionValues.neutralPlayer)
                 {
-                    RT_Dialog_Error d1 = new RT_Dialog_Error("Chosen ship is already marked as neutral!");
+                    RT_Dialog_Message d1 = new RT_Dialog_Message("ERROR", new string[] { "Chosen ship is already marked as neutral!" });
                     DialogManager.PushNewDialog(d1);
                 }
                 else RequestChangeStructureGoodwill(tileToUse, Goodwill.Neutral);
@@ -52,7 +52,7 @@ namespace GameClient.SOS2RTCompat
             {
                 if (factionToUse == FactionValues.allyPlayer)
                 {
-                    RT_Dialog_Error d1 = new RT_Dialog_Error("Chosen ship is already marked as ally!");
+                    RT_Dialog_Message d1 = new RT_Dialog_Message("ERROR", new string[] { "Chosen ship is already marked as ally!" });
                     DialogManager.PushNewDialog(d1);
                 }
                 else RequestChangeStructureGoodwill(tileToUse, Goodwill.Ally);

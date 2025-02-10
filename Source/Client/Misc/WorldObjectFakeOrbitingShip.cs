@@ -80,8 +80,8 @@ namespace GameClient.SOS2RTCompat
                             GoodwillTarget.Settlement);
                         };
 
-                        RT_Dialog_3Button d1 = new RT_Dialog_3Button("Change Goodwill", "Set settlement's goodwill to",
-                            "Enemy", "Neutral", "Ally", r1, r2, r3, null);
+                        RT_Dialog_Buttons d1 = new RT_Dialog_Buttons("Change Goodwill", "Set settlement's goodwill to",
+                            new string[] { "Enemy", "Neutral", "Ally", }, new Action[] { r1, r2, r3 }, null);
 
                         DialogManager.PushNewDialog(d1);
                     }

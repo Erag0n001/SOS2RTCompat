@@ -19,7 +19,11 @@ namespace GameClient.SOS2RTCompat
             if (Network.state == ClientNetworkState.Connected)
             {
                 ClientValues.ManageDevOptions();
-                GameParameterManager.SetDifficulty(GameParameterManager.GetDifficulty());
+
+                GameParameterManager.SetScenario(SessionValues.scenarioFile);
+                GameParameterManager.SetStoryteller(SessionValues.storytellerFile);
+                GameParameterManager.SetDifficulty(SessionValues.difficultyFile);
+
                 Map map = core.Map;
                 if (!targetMap.IsSpace() && ShipInteriorMod2.FindPlayerShipMap() == null)
                 {
