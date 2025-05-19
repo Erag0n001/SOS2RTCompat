@@ -6,7 +6,6 @@ using GameClient.TCP;
 using GameClient.Misc;
 namespace GameClient.SOS2RTCompat
 {
-    [RTManager]
     public static class ShipMovementManager
     {
         public static bool shipMoved = false;
@@ -19,9 +18,10 @@ namespace GameClient.SOS2RTCompat
         {
             Task.Run(PositionChecker);
         }
-        public static void ParsePacket(Packet packet) 
+        [HandlesModdedPacket(ModdedPacketTypes.ShipMovement)]
+        public static void ParsePacket(byte[] packet) 
         {
-            MovementData data = Serializer.ConvertBytesToObject<MovementData>(packet.contents);
+            MovementData data = Serializer.ConvertBytesToObject<MovementData>(packet);
             MoveShipFromTile(data);
         }
         public static void PositionChecker()
@@ -31,12 +31,12 @@ namespace GameClient.SOS2RTCompat
                 Thread.Sleep(sleepTime);
                 if (shipMoved)
                 {
-                    Packet packet = Packet.CreatePacketFromObject(nameof(ShipMovementManager), new MovementData(-1) {
+                    var data = new MovementData(-1) {
                         _phi = phi, 
                         _theta = theta, 
                         _radius = radius, 
-                        _tile = tile });
-                    Network.listener.EnqueuePacket(packet);
+                        _tile = tile };
+                    Network.Listener.EnqueueModdedPacket(ModdedPacketTypes.ShipMovement, data);
                     shipMoved = false;
                 }
             }

@@ -13,14 +13,14 @@ using static Shared.CommonEnumerators;
 
 namespace GameClient.SOS2RTCompat
 {
-    [RTManager]
     public static class SpaceGoodwillManager
     {
-        public static void ParsePacket(Packet packet)
+        [HandlesModdedPacket(ModdedPacketTypes.ShipGoodwill)]
+        public static void ParsePacket(byte[] packet)
         {
-            SpaceFactionGoodwillData factionGoodwillData = Serializer.ConvertBytesToObject<SpaceFactionGoodwillData>(packet.contents);
+            SpaceFactionGoodwillData factionGoodwillData = Serializer.ConvertBytesToObject<SpaceFactionGoodwillData>(packet);
             SpaceSettlementManager.ChangeGoodwill(factionGoodwillData);
-            DialogManager.PopWaitDialog();
+            RT_Dialog_Base.PushNewDialog(new RT_Dialog_Wait("Waiting for server"));
         }
 
         public static void TryRequestGoodwill(Goodwill type, GoodwillTarget target)
@@ -31,29 +31,29 @@ namespace GameClient.SOS2RTCompat
 
             if (type == Goodwill.Enemy)
             {
-                if (factionToUse == FactionValues.enemyPlayer)
+                if (factionToUse == ClientValues.EnemyPlayer)
                 {
                     RT_Dialog_Message d1 = new RT_Dialog_Message("ERROR", new string[] { "Chosen ship is already marked as enemy!" });
-                    DialogManager.PushNewDialog(d1);
+                    RT_Dialog_Base.PushNewDialog(d1);
                 }
                 else RequestChangeStructureGoodwill(tileToUse, Goodwill.Enemy);
             }
             else if (type == Goodwill.Neutral)
             {
-                if (factionToUse == FactionValues.neutralPlayer)
+                if (factionToUse == ClientValues.NeutralPlayer)
                 {
                     RT_Dialog_Message d1 = new RT_Dialog_Message("ERROR", new string[] { "Chosen ship is already marked as neutral!" });
-                    DialogManager.PushNewDialog(d1);
+                    RT_Dialog_Base.PushNewDialog(d1);
                 }
                 else RequestChangeStructureGoodwill(tileToUse, Goodwill.Neutral);
             }
 
             else if (type == Goodwill.Ally)
             {
-                if (factionToUse == FactionValues.allyPlayer)
+                if (factionToUse == ClientValues.AllyPlayer)
                 {
                     RT_Dialog_Message d1 = new RT_Dialog_Message("ERROR", new string[] { "Chosen ship is already marked as ally!" });
-                    DialogManager.PushNewDialog(d1);
+                    RT_Dialog_Base.PushNewDialog(d1);
                 }
                 else RequestChangeStructureGoodwill(tileToUse, Goodwill.Ally);
             }
@@ -65,11 +65,10 @@ namespace GameClient.SOS2RTCompat
                 (SOS2SessionValues.chosenWorldObject as WorldObjectFakeOrbitingShip).serverId);
             factionGoodwillData._tile = structureTile;
             factionGoodwillData._goodwill = goodwill;
-            Packet packet = Packet.CreatePacketFromObject(nameof(SpaceGoodwillManager), factionGoodwillData);
-            Network.listener.EnqueuePacket(packet);
+            Network.Listener.EnqueueModdedPacket(ModdedPacketTypes.ShipGoodwill, factionGoodwillData);
 
             RT_Dialog_Wait d1 = new RT_Dialog_Wait("Changing ship goodwill");
-            DialogManager.PushNewDialog(d1);
+            RT_Dialog_Base.PushNewDialog(d1);
         }
     }
 }

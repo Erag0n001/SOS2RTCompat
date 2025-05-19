@@ -15,15 +15,15 @@ namespace GameClient.SOS2RTCompat
         [HarmonyPostfix]
         public static void DoPost(Map __result)
         {
-            if (Network.state == ClientNetworkState.Connected)
+            if (Network.State == ClientNetworkState.Connected)
             {
                 if (__result != null)
                 {
                     ClientValues.ManageDevOptions();
 
-                    GameParameterManager.SetScenario(SessionValues.scenarioFile);
-                    GameParameterManager.SetStoryteller(SessionValues.storytellerFile);
-                    GameParameterManager.SetDifficulty(SessionValues.difficultyFile);
+                    GameParameterManager.SetScenario(SessionValues.ScenarioFile);
+                    GameParameterManager.SetStoryteller(SessionValues.StorytellerFile);
+                    GameParameterManager.SetDifficulty(SessionValues.DifficultyFile);
 
                     Main.shipTile = __result.Tile;
                     SpaceSettlementManagerHelper.SendSettlementToServer(__result);

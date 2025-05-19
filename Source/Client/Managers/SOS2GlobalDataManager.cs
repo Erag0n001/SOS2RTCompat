@@ -13,9 +13,9 @@ namespace GameClient.SOS2RTCompat
     public static class SOS2GlobalDataManager
     {
         public static SpaceSettlementData[] tempSettlements;
-        public static void ParsePacket(Packet packet) 
+        public static void ParsePacket(byte[] packet) 
         {
-            GlobalData settlementList = Serializer.ConvertBytesToObject<GlobalData>(packet.contents);
+            GlobalData settlementList = Serializer.ConvertBytesToObject<GlobalData>(packet);
             tempSettlements = settlementList._spaceSettlements;
         }
     }

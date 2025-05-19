@@ -16,7 +16,7 @@ namespace GameClient.SOS2RTCompat
         [HarmonyPostfix]
         public static void DoPost()
         {
-            if (Network.state == ClientNetworkState.Connected)
+            if (Network.State == ClientNetworkState.Connected)
             {
                 Printer.Warning("[SOS2]Player abandoned ship.", LogImportanceMode.Verbose);
                 PlayerSettlementData settlementData = new PlayerSettlementData();
@@ -25,8 +25,7 @@ namespace GameClient.SOS2RTCompat
                 Main.shipTile = -1;
                 settlementData._stepMode = SettlementStepMode.Remove;
 
-                Packet packet = Packet.CreatePacketFromObject(nameof(SpaceSettlementManager), settlementData);
-                Network.listener.EnqueuePacket(packet);
+                Network.Listener.EnqueuePacket(PacketHeader.SettlementManager, settlementData);
 
                 SaveManager.ForceSave();
             }

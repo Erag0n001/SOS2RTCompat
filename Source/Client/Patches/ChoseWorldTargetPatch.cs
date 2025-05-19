@@ -21,7 +21,7 @@ namespace GameClient.SOS2RTCompat
             [HarmonyPostfix]
             public static void DoPost(GlobalTargetInfo target, bool __result)
             {
-                if (Network.state == ClientNetworkState.Connected)
+                if (Network.State == ClientNetworkState.Connected)
                 {
                     Printer.Warning($"[SOS2]Is observing {target.Tile}", LogImportanceMode.Verbose);
                     if (target.WorldObject == null && !Find.World.Impassable(target.Tile))
@@ -30,9 +30,7 @@ namespace GameClient.SOS2RTCompat
                         settlementData._settlementFile = new SettlementFile();
                         settlementData._settlementFile.Tile = target.Tile;
                         settlementData._stepMode = SettlementStepMode.Add;
-
-                        Packet packet = Packet.CreatePacketFromObject(nameof(PlayerSettlementManager),settlementData);
-                        Network.listener.EnqueuePacket(packet);
+                        Network.Listener.EnqueuePacket(PacketHeader.SettlementManager, settlementData);
 
                         SaveManager.ForceSave();
                         tile = target.Tile;
@@ -47,7 +45,7 @@ namespace GameClient.SOS2RTCompat
             [HarmonyPostfix]
             public static void DoPost(Building_ShipSensor __instance)
             {
-                if (Network.state == ClientNetworkState.Connected)
+                if (Network.State == ClientNetworkState.Connected)
                 {
                     Printer.Warning($"[SOS2]Has stopped observing {tile}", LogImportanceMode.Verbose);
                     if (tile != -1)
@@ -57,8 +55,7 @@ namespace GameClient.SOS2RTCompat
                         settlementData._settlementFile.Tile = tile;
                         settlementData._stepMode = SettlementStepMode.Remove;
 
-                        Packet packet = Packet.CreatePacketFromObject(nameof(PlayerSettlementManager), settlementData);
-                        Network.listener.EnqueuePacket(packet);
+                        Network.Listener.EnqueuePacket(PacketHeader.SettlementManager, settlementData);
 
                         SaveManager.ForceSave();
                     }

@@ -4,7 +4,6 @@ using Shared.SOS2RTCompat;
 
 namespace GameServer.SOS2RTCompat
 {
-    [RTManager]
     public static class SOS2GlobalDataManager
     {
         public static void SendServerSpaceSettlements(ServerClient client)
@@ -15,7 +14,7 @@ namespace GameServer.SOS2RTCompat
             {
                 SpaceSettlementData data = new SpaceSettlementData();
 
-                if (settlement.UID == client.userFile.Uid) continue;
+                if (settlement.UID == client.UserFile.Uid) continue;
                 else
                 {
                     data._settlementFile = settlement;
@@ -25,8 +24,7 @@ namespace GameServer.SOS2RTCompat
                 }
             }
             GlobalData global = new GlobalData() { _spaceSettlements = tempList.ToArray()};
-            Packet packet = Packet.CreatePacketFromObject(nameof(SOS2GlobalDataManager), global);
-            client.listener.EnqueuePacket(packet);
+            client.Listener.EnqueueModdedPacket(ModdedPacketTypes.GlobalSpaceSettlements, global);
         }
     }
 }

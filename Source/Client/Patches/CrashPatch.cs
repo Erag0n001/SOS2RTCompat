@@ -16,7 +16,7 @@ namespace GameClient.SOS2RTCompat
         [HarmonyPostfix]
         public static void DoPost(WorldObjectOrbitingShip __instance)
         {
-            if (Network.state == ClientNetworkState.Connected)
+            if (Network.State == ClientNetworkState.Connected)
             {
                 if (__instance.Map.GetComponent<ShipMapComp>().ShipMapState == ShipMapState.burnUpSet)
                 {
@@ -27,8 +27,7 @@ namespace GameClient.SOS2RTCompat
                     data._settlementFile.Tile = Main.shipTile;
                     Main.shipTile = -1;
 
-                    Packet packet = Packet.CreatePacketFromObject(nameof(SpaceSettlementManager), data);
-                    Network.listener.EnqueuePacket(packet);
+                    Network.Listener.EnqueueModdedPacket(ModdedPacketTypes.SpaceSettlement, data);
 
                     SaveManager.ForceSave();
                 }

@@ -22,6 +22,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="GameServer\**" />
+      <EmbeddedResource Remove="GameServer\**" />
+      <None Remove="GameServer\**" />
+    </ItemGroup>
+
+    <ItemGroup>
       <PackageReference Include="Lib.Harmony">
         <Version>2.3.3</Version>
       </PackageReference>
@@ -34,10 +40,6 @@
         <HintPath>..\..\..\..\..\..\..\..\Github\Rimworld-Together\Source\Server\bin\Debug\net8.0\GameServer.dll</HintPath>
         <Private>False</Private>
       </Reference>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="GameServer\" />
     </ItemGroup>
 	
     <Import Project="..\Shared\Shared.projitems" Label="Shared" />

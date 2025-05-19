@@ -51,7 +51,7 @@ namespace GameClient.SOS2RTCompat
         }
         public override IEnumerable<Gizmo> GetGizmos()
         {
-            if (FactionValues.playerFactions.Contains(Faction))
+            if (ClientValues.PlayerFactions.Contains(Faction))
             {
                 var gizmoList = new List<Gizmo>();
                 gizmoList.Clear();
@@ -83,7 +83,7 @@ namespace GameClient.SOS2RTCompat
                         RT_Dialog_Buttons d1 = new RT_Dialog_Buttons("Change Goodwill", "Set settlement's goodwill to",
                             new string[] { "Enemy", "Neutral", "Ally", }, new Action[] { r1, r2, r3 }, null);
 
-                        DialogManager.PushNewDialog(d1);
+                        RT_Dialog_Base.PushNewDialog(d1);
                     }
                 };
 
@@ -96,9 +96,9 @@ namespace GameClient.SOS2RTCompat
                     {
                         SOS2SessionValues.chosenWorldObject = this;
 
-                        if (SessionValues.actionValues.EnableFactions)
+                        if (SessionValues.ActionValues.EnableFactions)
                         {
-                            if (SessionValues.chosenSettlement.Faction == FactionValues.yourOnlineFaction) GuildManager.OnFactionOpenOnMember();
+                            if (SessionValues.ChosenSettlement.Faction == ClientValues.YourOnlineFaction) GuildManager.OnFactionOpenOnMember();
                             else GuildManager.OnFactionOpenOnNonMember();
                         }
                     }
@@ -117,9 +117,9 @@ namespace GameClient.SOS2RTCompat
                     }
                 };
 
-                if (this.Faction != FactionValues.yourOnlineFaction) gizmoList.Add(command_Goodwill);
-                if (ServerValues.hasFaction) gizmoList.Add(command_FactionMenu);
-                if (SessionValues.actionValues.EnableEvents) gizmoList.Add(command_Event);
+                if (this.Faction != ClientValues.YourOnlineFaction) gizmoList.Add(command_Goodwill);
+                if (SessionValues.ActionValues.EnableFactions) gizmoList.Add(command_FactionMenu);
+                if (SessionValues.ActionValues.EnableEvents) gizmoList.Add(command_Event);
                 return gizmoList;
             }
 
@@ -136,12 +136,12 @@ namespace GameClient.SOS2RTCompat
                     {
                         SOS2SessionValues.chosenWorldObject = this;
 
-                        if (SessionValues.chosenSettlement.Faction == FactionValues.yourOnlineFaction) GuildManager.OnFactionOpenOnMember();
+                        if (SessionValues.ChosenCaravan.Faction == ClientValues.YourOnlineFaction) GuildManager.OnFactionOpenOnMember();
                         else GuildManager.OnFactionOpenOnNonMember();
                     }
                 };
 
-                if (SessionValues.actionValues.EnableFactions) gizmoList.Add(command_FactionMenu);
+                if (SessionValues.ActionValues.EnableFactions) gizmoList.Add(command_FactionMenu);
                 return gizmoList;
             }
             return base.GetGizmos();

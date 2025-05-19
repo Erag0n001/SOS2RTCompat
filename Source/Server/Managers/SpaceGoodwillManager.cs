@@ -9,9 +9,10 @@ namespace GameServer.SOS2RTCompat
     [RTManager]
     public static class SpaceGoodwillManager
     {
-        public static void ParsePacket(ServerClient client, Packet packet)
+        [HandlesModdedPacket(ModdedPacketTypes.ShipGoodwill)]
+        public static void ParsePacket(ServerClient client, byte[] packet)
         {
-            SpaceFactionGoodwillData data = Serializer.ConvertBytesToObject<SpaceFactionGoodwillData>(packet.contents);
+            SpaceFactionGoodwillData data = Serializer.ConvertBytesToObject<SpaceFactionGoodwillData>(packet);
             ChangeUserGoodwills(client, data);
         }
 
@@ -21,28 +22,28 @@ namespace GameServer.SOS2RTCompat
 
             data._uid = settlementFile.UID;
 
-            if (GuildManagerH.GetFactionFromFactionName(client.userFile.GuildName).CurrentUids.Contains(data._uid))
+            if (GuildManagerH.GetFactionFromFactionName(client.UserFile.GuildName).CurrentUids.Contains(data._uid))
             {
                 ResponseShortcutManager.SendBreakPacket(client);
                 return;
             }
 
-            client.userFile.EnemyPlayers.Remove(data._uid);
-            client.userFile.AllyPlayers.Remove(data._uid);
+            client.UserFile.EnemyPlayers.Remove(data._uid);
+            client.UserFile.AllyPlayers.Remove(data._uid);
 
             if (data._goodwill == Goodwill.Enemy)
             {
-                if (!client.userFile.EnemyPlayers.Contains(data._uid))
+                if (!client.UserFile.EnemyPlayers.Contains(data._uid))
                 {
-                    client.userFile.EnemyPlayers.Add(data._uid);
+                    client.UserFile.EnemyPlayers.Add(data._uid);
                 }
             }
 
             else if (data._goodwill == Goodwill.Ally)
             {
-                if (!client.userFile.AllyPlayers.Contains(data._uid))
+                if (!client.UserFile.AllyPlayers.Contains(data._uid))
                 {
-                    client.userFile.AllyPlayers.Add(data._uid);
+                    client.UserFile.AllyPlayers.Add(data._uid);
                 }
             }
 
@@ -60,23 +61,22 @@ namespace GameServer.SOS2RTCompat
             }
             data._settlementGoodwills = tempSettlementList.ToArray();
 
-            UserManagerH.SaveUserFile(client.userFile);
+            UserManagerH.SaveUserFile(client.UserFile);
 
-            Packet rPacket = Packet.CreatePacketFromObject(nameof(SpaceGoodwillManager), data);
-            client.listener.EnqueuePacket(rPacket);
+            client.Listener.EnqueueModdedPacket(ModdedPacketTypes.ShipGoodwill, data);
         }
 
         public static Goodwill GetSettlementGoodwill(ServerClient client, SpaceSettlementFile settlement)
         {
-            if (GuildManagerH.GetFactionFromFactionName(client.userFile.GuildName).CurrentUids.Contains(settlement.UID))
+            if (GuildManagerH.GetFactionFromFactionName(client.UserFile.GuildName).CurrentUids.Contains(settlement.UID))
             {
-                if (settlement.UID == client.userFile.Uid) return Goodwill.Personal;
+                if (settlement.UID == client.UserFile.Uid) return Goodwill.Personal;
                 else return Goodwill.Faction;
             }
 
-            else if (client.userFile.EnemyPlayers.Contains(settlement.UID)) return Goodwill.Enemy;
-            else if (client.userFile.AllyPlayers.Contains(settlement.UID)) return Goodwill.Ally;
-            else if (settlement.UID == client.userFile.Uid) return Goodwill.Personal;
+            else if (client.UserFile.EnemyPlayers.Contains(settlement.UID)) return Goodwill.Enemy;
+            else if (client.UserFile.AllyPlayers.Contains(settlement.UID)) return Goodwill.Ally;
+            else if (settlement.UID == client.UserFile.Uid) return Goodwill.Personal;
             else return Goodwill.Neutral;
         }
     }

@@ -10,10 +10,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)*.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)misc\HandlesModdedPacket.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)misc\ListenerExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)misc\PacketTypes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PacketData\GlobalData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PacketData\MovementData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)packetdata\SpaceFactionGoodwillData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PacketData\SpaceSettlementData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PacketData\SpaceSettlementFile.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Misc\" />
   </ItemGroup>
 </Project>

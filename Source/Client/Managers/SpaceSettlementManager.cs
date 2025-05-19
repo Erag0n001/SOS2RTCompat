@@ -19,10 +19,10 @@ namespace GameClient.SOS2RTCompat
     public static class SpaceSettlementManager
     {
         public static List<WorldObjectFakeOrbitingShip> spacePlayerSettlement = new List<WorldObjectFakeOrbitingShip>();
-            
-        public static void ParsePacket(Packet packet) 
+        [HandlesModdedPacket(ModdedPacketTypes.SpaceSettlement)]
+        public static void ParsePacket(byte[] packet) 
         {
-            SpaceSettlementData spaceSettlement = Serializer.ConvertBytesToObject<SpaceSettlementData>(packet.contents);
+            SpaceSettlementData spaceSettlement = Serializer.ConvertBytesToObject<SpaceSettlementData>(packet);
             switch (spaceSettlement._stepMode)
             {
                 case SettlementStepMode.Add:
@@ -134,8 +134,7 @@ namespace GameClient.SOS2RTCompat
             spaceSiteData._settlementFile.Radius = orbitShip.Radius;
             orbitShip.Phi = UnityEngine.Random.Range(-70f, 70f);
             spaceSiteData._settlementFile.Phi = orbitShip.Phi;
-            Packet packet = Packet.CreatePacketFromObject(nameof(SpaceSettlementManager), spaceSiteData);
-            Network.listener.EnqueuePacket(packet);
+            Network.Listener.EnqueueModdedPacket(ModdedPacketTypes.SpaceSettlement, spaceSiteData);
 
             SaveManager.ForceSave();
         }

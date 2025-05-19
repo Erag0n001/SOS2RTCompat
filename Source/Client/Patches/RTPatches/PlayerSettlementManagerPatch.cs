@@ -6,7 +6,7 @@ namespace GameClient.SOS2RTCompat
 {
     public static class PlayerSettlementManagerPatch
     {
-        [HarmonyPatch(typeof(PlayerSettlementManager), "SpawnSingleSettlement")]
+        [HarmonyPatch(typeof(SettlementManager), "SpawnSingleSettlement")]
         public static class CheckIfSpaceSettlementExist
         {
             [HarmonyPrefix]
@@ -20,7 +20,7 @@ namespace GameClient.SOS2RTCompat
                 return true;
             }
         }
-        [HarmonyPatch(typeof(PlayerSettlementManager), "SendNewPlayerSettlement")]
+        [HarmonyPatch(typeof(SettlementManager), "SendNewPlayerSettlement")]
         public static class CheckIfSpaceSettlementExistInit
         {
             [HarmonyPrefix]

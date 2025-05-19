@@ -12,7 +12,7 @@ namespace GameClient.SOS2RTCompat
         [HarmonyPostfix]
         public static void DoPost(WorldObjectOrbitingShip __instance)
         {
-            if (Network.state == ClientNetworkState.Connected)
+            if (Network.State == ClientNetworkState.Connected)
             {
                 if (__instance.orbitalMove != 0)
                 {

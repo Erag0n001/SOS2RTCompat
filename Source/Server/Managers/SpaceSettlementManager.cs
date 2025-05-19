@@ -1,4 +1,5 @@
-﻿using GameServer.Core;
+﻿using System.Reflection.PortableExecutable;
+using GameServer.Core;
 using GameServer.Managers;
 using GameServer.Misc;
 using GameServer.TCP;
@@ -13,9 +14,10 @@ namespace GameServer.SOS2RTCompat
     public static class SpaceSettlementManager
     {
         public readonly static string fileExtension = ".mpship";
-        public static void ParsePacket(ServerClient client, Packet packet) 
+        [HandlesModdedPacket(ModdedPacketTypes.SpaceSettlement)]
+        public static void ParsePacket(ServerClient client, byte[] packet) 
         {
-            SpaceSettlementData spaceSettlementData = Serializer.ConvertBytesToObject<SpaceSettlementData>(packet.contents);
+            SpaceSettlementData spaceSettlementData = Serializer.ConvertBytesToObject<SpaceSettlementData>(packet);
             switch (spaceSettlementData._stepMode)
             {
                 case CommonEnumerators.SettlementStepMode.Add:
@@ -29,16 +31,16 @@ namespace GameServer.SOS2RTCompat
 
         public static void AddSpaceSettlement(ServerClient client, SpaceSettlementData settlementData) 
         {
-            settlementData._settlementFile.UID = client.userFile.Uid;
+            settlementData._settlementFile.UID = client.UserFile.Uid;
 
             SpaceSettlementFile settlementFile = new SpaceSettlementFile(IDManager.GetNextID());
             settlementFile.Tile = settlementData._settlementFile.Tile;
-            settlementFile.UID = client.userFile.Uid;
-            settlementFile.Label = client.userFile.Label;
+            settlementFile.UID = client.UserFile.Uid;
+            settlementFile.Label = client.UserFile.Label;
             settlementFile.Phi = settlementData._settlementFile.Phi;
             settlementFile.Radius = settlementData._settlementFile.Radius;
             settlementFile.Theta = settlementData._settlementFile.Theta;
-            Serializer.SerializeToFile(Path.Combine(Master.settlementsPath, settlementFile.UID + fileExtension), settlementFile);
+            Serializer.SerializeToFile(Path.Combine(Master.SettlementsPath, settlementFile.UID + fileExtension), settlementFile);
 
             settlementData._stepMode = SettlementStepMode.Add;
             foreach (ServerClient cClient in NetworkHelper.GetConnectedClientsSafe())
@@ -48,11 +50,10 @@ namespace GameServer.SOS2RTCompat
                 {
                     settlementData._settlementFile.Goodwill = GoodwillManager.GetSettlementGoodwill(cClient, settlementFile);
 
-                    Packet rPacket = Packet.CreatePacketFromObject(nameof(SpaceSettlementManager),settlementData);
-                    cClient.listener.EnqueuePacket(rPacket);
+                    cClient.Listener.EnqueueModdedPacket(ModdedPacketTypes.SpaceSettlement, settlementData);
                 }
             }
-            Printer.Warning($"[SOS2][Added space settlement] > {settlementFile.ID} > {client.userFile.Uid}");
+            Printer.Warning($"[SOS2][Added space settlement] > {settlementFile.ID} > {client.UserFile.Uid}");
         }
 
         public static void RemoveSpaceSettlement(ServerClient client, SpaceSettlementFile file) 
@@ -61,8 +62,8 @@ namespace GameServer.SOS2RTCompat
 
             if (client != null)
             {
-                if (settlementFile.UID != client.userFile.Uid)
-                    ResponseShortcutManager.SendIllegalPacket(client, $"[SOS2]Ship with id {file.ID} attempted to be removed by {client.userFile.Uid}, but {settlementFile.UID} owns the ship");
+                if (settlementFile.UID != client.UserFile.Uid)
+                    ResponseShortcutManager.SendIllegalPacket(client, $"[SOS2]Ship with id {file.ID} attempted to be removed by {client.UserFile.Uid}, but {settlementFile.UID} owns the ship");
                 else
                 {
                     Delete();
@@ -76,7 +77,7 @@ namespace GameServer.SOS2RTCompat
             }
             void Delete()
             {
-                File.Delete(Path.Combine(Master.settlementsPath, settlementFile.UID + fileExtension));
+                File.Delete(Path.Combine(Master.SettlementsPath, settlementFile.UID + fileExtension));
 
                 Printer.Warning($"[SOS2][Remove ship] > {settlementFile.ID}");
             }
@@ -88,8 +89,11 @@ namespace GameServer.SOS2RTCompat
                     _stepMode = SettlementStepMode.Remove
                 };
 
-                Packet packet = Packet.CreatePacketFromObject(nameof(PlayerSettlementManager), data);
-                NetworkHelper.SendPacketToAllClients(packet, client);
+                ServerClient[] connectedClientsSafe = NetworkHelper.GetConnectedClientsSafe(client);
+                foreach (ServerClient serverClient in connectedClientsSafe)
+                {
+                    serverClient.Listener.EnqueueModdedPacket(ModdedPacketTypes.SpaceSettlement, data);
+                }
             }
         }
 
@@ -108,7 +112,7 @@ namespace GameServer.SOS2RTCompat
         {
             if(id == -1) 
             {
-                return GetSettlementFromUID(client.userFile.Uid);
+                return GetSettlementFromUID(client.UserFile.Uid);
             }
             SpaceSettlementFile[] spaceSettlements = GetAllSettlements();
             foreach (SpaceSettlementFile settlement in spaceSettlements)
@@ -122,7 +126,7 @@ namespace GameServer.SOS2RTCompat
         {
             List<SpaceSettlementFile> settlementList = new List<SpaceSettlementFile>();
 
-            string[] settlements = Directory.GetFiles(Master.settlementsPath);
+            string[] settlements = Directory.GetFiles(Master.SettlementsPath);
             foreach (string settlement in settlements)
             {
                 if (!settlement.EndsWith(fileExtension)) continue;

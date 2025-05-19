@@ -8,6 +8,8 @@ using System;
 using Verse;
 using GameClient.Misc;
 using GameClient.Core;
+using System.Collections.Generic;
+using System.Linq;
 namespace GameClient.SOS2RTCompat
 {
     [StaticConstructorOnStartup]
@@ -24,13 +26,12 @@ namespace GameClient.SOS2RTCompat
 
         public static void LoadAllManagers() 
         {
-            foreach (Type type in Assembly.GetExecutingAssembly().GetTypes())
+            MethodInfo method = AccessTools.Method(typeof(MethodGatherer), "GetPacketHandlerAttributes");
+            MethodInfo[] clientMethods = (MethodInfo[])method.Invoke(null, Assembly.GetExecutingAssembly().GetTypes().ToArray());
+            for (int i = 0; i < clientMethods.Length; i++)
             {
-                if (type.GetCustomAttributes(typeof(RTManager), false).Length != 0)
-                {
-                    try { Master.managerDictionary[type.Name] = type.GetMethod("ParsePacket"); }
-                    catch (Exception exception) { Printer.Error($"{type.Name} failed to load\n{exception}"); }
-                }
+                PacketHeader header = (PacketHeader)clientMethods[i].GetCustomAttribute<HandlesModdedPacket>().header;
+                MethodGatherer.ClientMethodDictionary.Add(header, clientMethods[i]);
             }
         }
 

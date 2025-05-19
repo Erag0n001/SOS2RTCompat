@@ -7,7 +7,6 @@ using Shared;
 
 namespace GameClient.SOS2RTCompat
 {
-    [RTManager]
     public static class GroundSettlementManager
     {
     }

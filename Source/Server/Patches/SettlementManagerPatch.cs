@@ -9,13 +9,13 @@ namespace GameServer.SOS2RTCompat
 {
     public static class PlayerSettlementManagerPatch
     {
-        [HarmonyPatch(typeof(PlayerSettlementManager), nameof(PlayerSettlementManager.CheckIfTileIsInUse))]
+        [HarmonyPatch(typeof(SettlementManager), nameof(SettlementManager.CheckIfTileIsInUse))]
         public static class CheckIfSpaceSettlementExist
         {
             [HarmonyPostfix]
             public static void DoPost(int tileToCheck, bool __result)
             {
-                string[] settlements = Directory.GetFiles(Master.settlementsPath);
+                string[] settlements = Directory.GetFiles(Master.SettlementsPath);
                 foreach (string settlement in settlements)
                 {
                     if (!settlement.EndsWith(SpaceSettlementManager.fileExtension)) continue;

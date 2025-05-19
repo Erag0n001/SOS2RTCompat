@@ -16,13 +16,13 @@ namespace GameClient.SOS2RTCompat
         [HarmonyPostfix]
         public static void DoPost(Building core, Map targetMap)
         {
-            if (Network.state == ClientNetworkState.Connected)
+            if (Network.State == ClientNetworkState.Connected)
             {
                 ClientValues.ManageDevOptions();
 
-                GameParameterManager.SetScenario(SessionValues.scenarioFile);
-                GameParameterManager.SetStoryteller(SessionValues.storytellerFile);
-                GameParameterManager.SetDifficulty(SessionValues.difficultyFile);
+                GameParameterManager.SetScenario(SessionValues.ScenarioFile);
+                GameParameterManager.SetStoryteller(SessionValues.StorytellerFile);
+                GameParameterManager.SetDifficulty(SessionValues.DifficultyFile);
 
                 Map map = core.Map;
                 if (!targetMap.IsSpace() && ShipInteriorMod2.FindPlayerShipMap() == null)
@@ -34,8 +34,7 @@ namespace GameClient.SOS2RTCompat
                     Main.shipTile = -1;
                     settlementData._stepMode = SettlementStepMode.Remove;
 
-                    Packet packet = Packet.CreatePacketFromObject(nameof(SpaceSettlementManager),settlementData);
-                    Network.listener.EnqueuePacket(packet);
+                    Network.Listener.EnqueueModdedPacket(ModdedPacketTypes.SpaceSettlement, settlementData);
 
                     SaveManager.ForceSave();
                 }

@@ -11,7 +11,7 @@ namespace GameClient.SOS2RTCompat
         [HarmonyPostfix]
         public static void GetIDFromExistingGame()
         {
-            if (Network.state == ClientNetworkState.Connected)
+            if (Network.State == ClientNetworkState.Connected)
             {
                 Main.GetShipTile();
             }
